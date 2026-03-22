@@ -1,37 +1,30 @@
-const BASE_URL =
-  "https://script.google.com/macros/s/AKfycbyownwE2EPj2jdOQh-r8e_OsEv1fPxLQcwYywIA9aDUBWx2ks9iIljXjs4A6hN9Wsx0/exec";
-
-// async function api(action, data = {}) {
-//   const formData = new FormData();
-//   formData.append("action", action);
-
-//   Object.keys(data).forEach((key) => {
-//     formData.append(key, data[key]);
-//   });
-
-//   const res = await fetch(BASE_URL, {
-//     method: "POST",
-//     body: formData,
-//   });
-
-//   return res.json();
-// }
-// async function api(action, data = {}) {
-//   const params = new URLSearchParams({ action, ...data });
-
-//   const res = await fetch(`${BASE_URL}?${params.toString()}`);
-//   return res.json();
-// }
+const BASE_URL = "/api/proxy";
 
 async function api(action, data = {}) {
-  const params = new URLSearchParams({ action, ...data });
+  try {
+    const res = await fetch(BASE_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ action, ...data }),
+    });
 
-  const res = await fetch(`${BASE_URL}?${params}`, {
-    method: "GET",
-    credentials: "omit",
-  });
+    const text = await res.text();
 
-  return res.json();
+    try {
+      return JSON.parse(text);
+    } catch {
+      console.error("Invalid JSON:", text);
+      throw new Error("Invalid server response");
+    }
+  } catch (error) {
+    console.error("API Error:", error);
+    return {
+      success: false,
+      message: "Something went wrong",
+    };
+  }
 }
 
 // async function api(action, data = {}) {
