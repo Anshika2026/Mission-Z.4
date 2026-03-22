@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mission Z.4 - Login</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+<div class="auth-card">
+  <h1>Mission Z.4</h1>
+
+  <input type="text" id="name" placeholder="Full Name" required>
+  <input type="email" id="email" placeholder="Email Address" required>
+
+  <button id="registerBtn" onclick="register()">
+    <span id="btnText">Register</span>
+    <span id="loader" class="loader hidden"></span>
+  </button>
+
+  <button class="theme-toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
+</div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/utils.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0f172a;
+  color: white;
+  transition: 0.3s;
+}
+
+body.light {
+  background: #f1f5f9;
+  color: #111;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  background: #1e293b;
+}
+
+body.light .navbar {
+  background: white;
+}
+
+.navbar button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  border: none;
+  background: #22c55e;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* MAIN */
+.practice {
+  padding: 20px;
+}
+
+/* SUBJECT SELECT */
+.subject-select {
+  margin-bottom: 20px;
+}
+
+.subject-select select {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+/* DONUT CHART */
+.donut-chart {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+body.light .donut-chart {
+  background: white;
+}
+
+/* CHAPTER LIST */
+.chapter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.chapter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+body.light .chapter-row {
+  background: white;
+}
+
+.chapter-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.chapter-actions button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+}
+
+.chapter-actions button:hover {
+  background: #2563eb;
+}
+
+.score-box {
+  font-weight: bold;
+}
+
+/* WEAK CHAPTER */
+.weak {
+  border: 2px solid red;
+}
+
+/* QUIZ */
+.quiz {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.quiz-box {
+  width: 100%;
+  max-width: 600px;
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+body.light .quiz-box {
+  background: white;
+}
+
+#options-container {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option {
+  padding: 10px;
+  background: #334155;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+body.light .option {
+  background: #e2e8f0;
+}
+
+.option.selected {
+  background: #22c55e;
+}
+
+.quiz-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.quiz-controls button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background: #22c55e;
+  color: white;
+  cursor: pointer;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: #ef4444;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .chapter-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

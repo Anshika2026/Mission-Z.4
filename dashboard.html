@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mission Z.4 - Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<header class="navbar">
+  <h2>Mission Z.4</h2>
+  <div id="welcomeUser" class="welcome-text"></div>
+  <div>
+    <button onclick="goToPractice()">Practice</button>
+    <button onclick="logout()">Logout</button>
+    <button onclick="toggleTheme()">🌙</button>
+  </div>
+</header>
+
+<main class="dashboard">
+
+<section class="top-cards">
+  <div class="card">
+    <h3>📘 Prelims Overall Completion</h3>
+    <p id="prelimsCompletion">0%</p>
+  </div>
+
+  <div class="card">
+    <h3>📝 Mains Overall Completion</h3>
+    <p id="mainsCompletion">0%</p>
+  </div>
+</section>
+
+  <section class="charts">
+
+    <div class="chart-box">
+      <h3>Prelims Progress</h3>
+
+      <!-- <select id="prelims-subject"></select>
+      <select id="prelims-chapter"></select> -->
+      <select id="prelims-subject" onchange="loadChapters('prelims')"></select>
+<select id="prelims-chapter"></select>
+
+      <button onclick="markComplete('prelims')">✔ Mark Complete</button>
+
+      <canvas id="prelimsChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h3>Mains Progress</h3>
+
+      <!-- <select id="mains-subject"></select>
+      <select id="mains-chapter"></select> -->
+      <select id="mains-subject" onchange="loadChapters('mains')"></select>
+<select id="mains-chapter"></select>
+
+      <button onclick="markComplete('mains')">✔ Mark Complete</button>
+
+      <canvas id="mainsChart"></canvas>
+    </div>
+
+  </section>
+
+  <section class="consistency">
+    <h3>📅 Daily Consistency</h3>
+    <canvas id="consistencyChart"></canvas>
+  </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/utils.js"></script>
+
+</body>
+</html>
