@@ -9,67 +9,89 @@ function showWelcome() {
     name && name !== "undefined" ? `Welcome ${name}` : "Welcome User";
 }
 async function init() {
-  // function showWelcome() {
-  //   const name = localStorage.getItem("userName") || "User";
-  //   document.getElementById("welcomeUser").innerText = `Welcome ${name}`;
-  // }
   const userId = getUserId();
   if (!userId) return logout();
   showWelcome();
   await loadSubjects();
   await loadDashboardData();
+  await loadStudyChart();
 }
-async function loadChapters(type) {
-  const subjectId = document.getElementById(`${type}-subject`).value;
-  const userId = getUserId();
+// async function loadChapters(type) {
+//   const subjectId = document.getElementById(`${type}-subject`).value;
+//   const userId = getUserId();
 
-  const res = await api("getChapters", { subjectId, userId });
+//   const res = await api("getChapters", { subjectId, userId });
 
-  const dropdown = document.getElementById(`${type}-chapter`);
-  dropdown.innerHTML = "";
+//   const dropdown = document.getElementById(`${type}-chapter`);
+//   dropdown.innerHTML = "";
 
-  res.chapters.forEach((ch) => {
-    const opt = document.createElement("option");
-    opt.value = ch.chapterId;
+//   res.chapters.forEach((ch) => {
+//     const opt = document.createElement("option");
+//     opt.value = ch.chapterId;
 
-    opt.textContent = ch.isCompleted ? `✅ ${ch.chapterName}` : ch.chapterName;
+//     opt.textContent = ch.isCompleted ? `✅ ${ch.chapterName}` : ch.chapterName;
 
-    if (ch.isCompleted) {
-      opt.style.backgroundColor = "#22c55e";
-      opt.style.color = "white";
-    }
+//     if (ch.isCompleted) {
+//       opt.style.backgroundColor = "#22c55e";
+//       opt.style.color = "white";
+//     }
 
-    dropdown.appendChild(opt);
-  });
-}
+//     dropdown.appendChild(opt);
+//   });
+// }
 async function loadSubjects() {
   const res = await api("getSubjects");
 
   const prelims = res.prelims;
   const mains = res.mains;
 
-  fillDropdown("prelims-subject", prelims);
-  fillDropdown("mains-subject", mains);
+  // fillDropdown("prelims-subject", prelims);
+  // fillDropdown("mains-subject", mains);
+  fillDropdown("prelims-subject", prelims, window.completedChapters);
+  fillDropdown("mains-subject", mains, window.completedChapters);
 }
 
-function fillDropdown(id, data) {
+// function fillDropdown(id, data) {
+//   const el = document.getElementById(id);
+//   el.innerHTML = "";
+
+//   data.forEach((item) => {
+//     const opt = document.createElement("option");
+//     opt.value = item.subjectId;
+//     opt.textContent = item.subjectName;
+//     el.appendChild(opt);
+//   });
+// }
+function fillDropdown(id, data, completedSet = new Set()) {
   const el = document.getElementById(id);
   el.innerHTML = "";
 
   data.forEach((item) => {
     const opt = document.createElement("option");
     opt.value = item.subjectId;
-    opt.textContent = item.subjectName;
+
+    const isDone = completedSet.has(item.subjectId);
+    opt.textContent = isDone ? `✔ ${item.subjectName}` : item.subjectName;
+
     el.appendChild(opt);
   });
 }
 
+// async function loadDashboardData() {
+//   const userId = getUserId();
+//   const res = await api("getProgress", { userId });
+
+//   renderCharts(res);
+//   renderStats(res);
+// }
 async function loadDashboardData() {
   const userId = getUserId();
   const res = await api("getProgress", { userId });
 
   renderCharts(res);
   renderStats(res);
+
+  window.completedChapters = new Set(res.completedChapters || []);
 }
 
 // function renderStats(data) {
@@ -115,39 +137,144 @@ function renderCharts(data) {
   });
 }
 
-async function markComplete(type) {
-  const userId = getUserId();
+// async function markComplete(type) {
+//   const userId = getUserId();
 
+//   const subjectId = document.getElementById(`${type}-subject`).value;
+//   const chapterId = document.getElementById(`${type}-chapter`).value;
+
+//   // await api("updateProgress", { userId, subjectId, chapterId });
+
+//   // loadDashboardData();
+//   const res = await api("updateProgress", { userId, subjectId, chapterId });
+
+//   await loadDashboardData();
+//   await loadChapters(type);
+// }
+// async function markComplete(type) {
+//   const btn = document.getElementById(`${type}Btn`);
+//   const text = btn.querySelector(".btn-text");
+//   const loader = btn.querySelector(".btn-loader");
+
+//   text.classList.add("hidden");
+//   loader.classList.remove("hidden");
+
+//   const userId = getUserId();
+//   const subjectId = document.getElementById(`${type}-subject`).value;
+//   const chapterId = document.getElementById(`${type}-chapter`).value;
+
+//   await api("updateProgress", { userId, subjectId, chapterId });
+
+//   await loadDashboardData();
+
+//   loader.classList.add("hidden");
+//   text.classList.remove("hidden");
+// }
+async function markComplete(type) {
+  const btn = event.target;
+
+  const originalText = btn.innerText;
+  btn.innerText = "Marking...";
+  btn.disabled = true;
+
+  const userId = getUserId();
   const subjectId = document.getElementById(`${type}-subject`).value;
   const chapterId = document.getElementById(`${type}-chapter`).value;
 
-  // await api("updateProgress", { userId, subjectId, chapterId });
+  await api("updateProgress", { userId, subjectId, chapterId });
 
-  // loadDashboardData();
-  const res = await api("updateProgress", { userId, subjectId, chapterId });
+  btn.innerText = originalText;
+  btn.disabled = false;
 
-  await loadDashboardData();
-  await loadChapters(type);
+  loadDashboardData();
 }
+// async function loadChapters(type) {
+//   const subjectId = document.getElementById(`${type}-subject`).value;
+//   const userId = getUserId();
+
+//   const res = await api("getChapters", { subjectId, userId });
+
+//   const dropdown = document.getElementById(`${type}-chapter`);
+//   dropdown.innerHTML = "";
+
+//   res.chapters.forEach((ch) => {
+//     const opt = document.createElement("option");
+//     opt.value = ch.chapterId;
+//     opt.textContent = ch.chapterName;
+
+//     if (ch.isCompleted) {
+//       opt.style.backgroundColor = "#22c55e";
+//       opt.style.color = "white";
+//     }
+
+//     dropdown.appendChild(opt);
+//   });
+// }
+
 async function loadChapters(type) {
-  const subjectId = document.getElementById(`${type}-subject`).value;
   const userId = getUserId();
+  const subjectId = document.getElementById(`${type}-subject`).value;
 
   const res = await api("getChapters", { subjectId, userId });
 
-  const dropdown = document.getElementById(`${type}-chapter`);
-  dropdown.innerHTML = "";
+  fillChapterDropdown(
+    `${type}-chapter`,
+    res.chapters,
+    window.completedChapters || new Set()
+  );
+}
 
-  res.chapters.forEach((ch) => {
+function fillChapterDropdown(id, chapters, completedSet) {
+  const el = document.getElementById(id);
+  el.innerHTML = "";
+
+  chapters.forEach((ch) => {
     const opt = document.createElement("option");
     opt.value = ch.chapterId;
-    opt.textContent = ch.chapterName;
 
-    if (ch.isCompleted) {
-      opt.style.backgroundColor = "#22c55e";
-      opt.style.color = "white";
-    }
+    const isDone = completedSet.has(ch.chapterId);
 
-    dropdown.appendChild(opt);
+    opt.textContent = isDone ? `✔ ${ch.chapterName}` : ch.chapterName;
+
+    el.appendChild(opt);
+  });
+}
+async function saveHours() {
+  const hours = document.getElementById("hoursInput").value;
+  const userId = getUserId();
+  const btn = document.getElementById("saveBtn");
+
+  if (!hours) return alert("Enter hours");
+  const originalText = btn.innerText;
+
+  btn.innerText = "Saving...";
+  btn.disabled = true;
+  await api("saveStudyHours", { userId, hours });
+  btn.innerText = originalText;
+  btn.disabled = false;
+  document.getElementById("hoursInput").value = "";
+
+  loadStudyChart();
+}
+async function loadStudyChart() {
+  const userId = getUserId();
+
+  const res = await api("getStudyHours", { userId });
+
+  const ctx = document.getElementById("consistencyChart");
+
+  if (consistencyChart) consistencyChart.destroy();
+
+  consistencyChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: res.labels,
+      datasets: [
+        {
+          label: "Study Hours",
+          data: res.data,
+        },
+      ],
+    },
   });
 }

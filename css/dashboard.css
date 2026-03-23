@@ -11,12 +11,28 @@ body.light {
   color: #111;
 }
 
-.navbar {
+/* .navbar {
   display: flex;
   justify-content: space-between;
   padding: 15px 30px;
   background: #1e293b;
   align-items: center;
+} */
+.navbar {
+  position: fixed;
+  top: 0;
+  /* left: 0; */
+  width: 100%;
+  box-sizing: border-box;
+  height: 70px;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(135, 135, 135, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 30px;
+  background: #1e293b;
 }
 
 body.light .navbar {
@@ -35,7 +51,11 @@ body.light .navbar {
 
 .dashboard {
   padding: 20px;
+  margin-top: 70px;
 }
+/* .dashboard {
+  padding: 100px 20px 20px;
+} */
 
 /* TOP CARDS */
 .top-cards {
@@ -116,4 +136,59 @@ body.light .consistency {
 .welcome-text {
   font-weight: bold;
   font-size: 16px;
+}
+.btn-loader {
+  border: 3px solid #ccc;
+  border-top: 3px solid #22c55e;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.hours-card {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: #1e293b;
+  padding: 12px;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.hours-card input {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  width: 120px;
+  font-size: 14px;
+}
+
+.hours-card button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #22c55e;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.hours-card button:hover {
+  background: #16a34a;
+}
+
+.hours-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

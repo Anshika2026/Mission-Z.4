@@ -41,7 +41,11 @@
       <select id="prelims-subject" onchange="loadChapters('prelims')"></select>
 <select id="prelims-chapter"></select>
 
-      <button onclick="markComplete('prelims')">✔ Mark Complete</button>
+      <!-- <button onclick="markComplete('prelims')">✔ Mark Complete</button> -->
+       <button id="prelimsBtn" onclick="markComplete('prelims')">
+  <span class="btn-text">✔ Mark Complete</span>
+  <span class="btn-loader hidden"></span>
+</button>
 
       <canvas id="prelimsChart"></canvas>
     </div>
@@ -54,7 +58,11 @@
       <select id="mains-subject" onchange="loadChapters('mains')"></select>
 <select id="mains-chapter"></select>
 
-      <button onclick="markComplete('mains')">✔ Mark Complete</button>
+      <!-- <button onclick="markComplete('mains')">✔ Mark Complete</button> -->
+       <button id="mainsBtn" onclick="markComplete('mains')">
+  <span class="btn-text">✔ Mark Complete</span>
+  <span class="btn-loader hidden"></span>
+</button>
 
       <canvas id="mainsChart"></canvas>
     </div>
@@ -62,7 +70,14 @@
   </section>
 
   <section class="consistency">
-    <h3>📅 Daily Consistency</h3>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+  <h3>📅 Daily Study Hours</h3>
+
+<div class="hours-card">
+  <input type="number" id="hoursInput" placeholder="Enter hours" />
+  <button id="saveBtn" onclick="saveHours()">Save</button>
+</div>
+</div>
     <canvas id="consistencyChart"></canvas>
   </section>
 

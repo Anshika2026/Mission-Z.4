@@ -1,32 +1,29 @@
-const BASE_URL = "/api/proxy";
+const BASE_URL =
+  "https://script.google.com/macros/s/AKfycbx8DGKrTmDZqAdgdZK1KdoK9gqFkeNIk3NLg9xJeoKVaiAVas8bmRXmrJYX5XIikFFK/exec";
 
 async function api(action, data = {}) {
-  try {
-    const res = await fetch(BASE_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ action, ...data }),
-    });
+  const params = new URLSearchParams({
+    action,
+    ...data,
+  });
 
-    const text = await res.text();
-
-    try {
-      return JSON.parse(text);
-    } catch {
-      console.error("Invalid JSON:", text);
-      throw new Error("Invalid server response");
-    }
-  } catch (error) {
-    console.error("API Error:", error);
-    return {
-      success: false,
-      message: "Something went wrong",
-    };
-  }
+  const res = await fetch(`${BASE_URL}?${params}`);
+  return res.json();
 }
+// async function api(action, data = {}) {
+//   const key = action + JSON.stringify(data);
 
+//   const cached = localStorage.getItem(key);
+//   if (cached) return JSON.parse(cached);
+
+//   const params = new URLSearchParams({ action, ...data });
+//   const res = await fetch(`${BASE_URL}?${params}`);
+//   const json = await res.json();
+
+//   localStorage.setItem(key, JSON.stringify(json));
+
+//   return json;
+// }
 // async function api(action, data = {}) {
 //   const formData = new FormData();
 //   formData.append("action", action);

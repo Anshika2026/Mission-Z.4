@@ -23,10 +23,13 @@
     <p id="question-text"></p>
 
     <div id="options-container"></div>
-
+    <div id="note-box" class="note-box hidden">
+  <textarea id="note-input" placeholder="Write your note..."></textarea>
+  <button onclick="saveNote()">Save Note</button>
+</div>
     <div class="quiz-controls">
       <button onclick="prevQuestion()">Back</button>
-      <button onclick="skipQuestion()">Skip</button>
+      <button onclick="toggleNote()">Add Note</button>
       <button onclick="nextQuestion()">Next</button>
     </div>
 

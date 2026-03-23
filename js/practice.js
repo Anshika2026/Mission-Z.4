@@ -38,21 +38,37 @@ function renderChapters(chapters) {
 
     if (ch.accuracy < 50) row.classList.add("weak");
 
+    // row.innerHTML = `
+    //   <div>${ch.chapterName}</div>
+    //   <div class="chapter-actions">
+    //     <button onclick="startQuiz('${ch.chapterId}')">PYQ</button>
+    //     <button onclick="startQuiz('${ch.chapterId}')">Practice</button>
+    //     <button>Notes</button>
+    //     <button>Analysis</button>
+    //   </div>
+    //   <div class="score-box">${ch.lastScore || "-"}</div>
+    // `;
     row.innerHTML = `
-      <div>${ch.chapterName}</div>
-      <div class="chapter-actions">
-        <button onclick="startQuiz('${ch.chapterId}')">PYQ</button>
-        <button onclick="startQuiz('${ch.chapterId}')">Practice</button>
-        <button>Notes</button>
-        <button>Analysis</button>
-      </div>
-      <div class="score-box">${ch.lastScore || "-"}</div>
-    `;
+  <div>${ch.chapterName}</div>
+  <div class="chapter-actions">
+    <button onclick="startQuiz('${ch.chapterId}')">PYQ</button>
+    <button onclick="startQuiz('${ch.chapterId}')">Practice</button>
+    <button onclick="openNotes('${ch.notesLink}')">Notes</button>
+    <button>Analysis</button>
+  </div>
+  <div class="score-box">${ch.lastScore || "-"}</div>
+`;
 
     container.appendChild(row);
   });
 }
-
+function openNotes(link) {
+  if (!link) {
+    alert("Notes not available");
+    return;
+  }
+  window.open(link, "_blank");
+}
 function renderDonut(stats) {
   const ctx = document.getElementById("attemptChart");
 

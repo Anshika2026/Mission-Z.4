@@ -12,9 +12,25 @@ body.light {
 }
 
 /* NAVBAR */
-.navbar {
+/* .navbar {
   display: flex;
   justify-content: space-between;
+  padding: 15px 30px;
+  background: #1e293b;
+} */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  box-sizing: border-box;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(135, 135, 135, 0.3);
   padding: 15px 30px;
   background: #1e293b;
 }
@@ -34,8 +50,11 @@ body.light .navbar {
 }
 
 /* MAIN */
-.practice {
+/* .practice {
   padding: 20px;
+} */
+.practice {
+  padding: 100px 20px 20px;
 }
 
 /* SUBJECT SELECT */
@@ -68,22 +87,36 @@ body.light .donut-chart {
   gap: 15px;
 }
 
-.chapter-row {
+/* .chapter-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: #1e293b;
   padding: 15px;
   border-radius: 10px;
+} */
+.chapter-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 10px;
+  gap: 15px;
 }
 
 body.light .chapter-row {
   background: white;
 }
 
-.chapter-actions {
+/* .chapter-actions {
   display: flex;
   gap: 10px;
+} */
+.chapter-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
 }
 
 .chapter-actions button {
@@ -183,4 +216,34 @@ body.light .option {
     align-items: flex-start;
     gap: 10px;
   }
+}
+.correct {
+  background: #22c55e !important;
+}
+
+.wrong {
+  background: #ef4444 !important;
+}
+.note-box {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.note-box textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.hidden {
+  display: none;
+}
+#attemptChart {
+  max-width: 250px;
+  max-height: 250px;
+  margin: auto;
 }
