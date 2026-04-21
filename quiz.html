@@ -19,9 +19,16 @@
 
   <div class="quiz-box">
 
-    <h3 id="question-number">Question 1</h3>
-    <p id="question-text"></p>
+<div class="quiz-header">
+  <h3 id="question-number">Question 1</h3>
 
+  <button class="submit-btn-top" id="submitBtn" onclick="submitQuiz()">
+    <span id="submitText">Submit</span>
+    <span id="submitLoader" class="loader hidden"></span>
+  </button>
+</div>
+
+<p id="question-text"></p>
     <div id="options-container"></div>
     <div id="note-box" class="note-box hidden">
   <textarea id="note-input" placeholder="Write your note..."></textarea>
@@ -33,15 +40,45 @@
       <button onclick="nextQuestion()">Next</button>
     </div>
 
-    <button class="submit-btn" onclick="submitQuiz()">Submit Test</button>
+    <!-- <button class="submit-btn" onclick="submitQuiz()">Submit Test</button> -->
 
   </div>
+  <!-- <div id="chatbot">
+  <div id="chat-header">Doubt Solver</div>
 
+  <div id="chat-body"></div>
+
+  <div id="chat-input-box">
+    <input type="text" id="chat-input" placeholder="Ask doubt...">
+    <button onclick="sendChat()">Send</button>
+  </div>
+</div> -->
 </main>
 
 <script src="js/api.js"></script>
 <script src="js/quiz.js"></script>
 <script src="js/utils.js"></script>
-
+<script src="js/chatbot.js"></script>
 </body>
+<!-- Floating Button -->
+<div id="chat-fab" onclick="toggleChat()">
+  💬
+</div>
+
+<!-- Chatbot Panel -->
+<div id="chatbot" class="chat-hidden">
+
+  <div id="chat-header">
+    Doubt Solver
+    <span onclick="toggleChat()" id="chat-close">✖</span>
+  </div>
+
+  <div id="chat-body"></div>
+
+  <div id="chat-input-box">
+    <input type="text" id="chat-input" placeholder="Ask doubt...">
+    <button onclick="sendChat()">Send</button>
+  </div>
+
+</div>
 </html>

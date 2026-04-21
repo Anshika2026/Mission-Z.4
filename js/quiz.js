@@ -4,7 +4,13 @@ let answers = [];
 let startTime;
 
 document.addEventListener("DOMContentLoaded", initQuiz);
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("chat-input");
 
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendChat();
+  });
+});
 async function initQuiz() {
   const chapterId = localStorage.getItem("chapterId");
   const userId = getUserId();
@@ -89,7 +95,43 @@ function skipQuestion() {
   nextQuestion();
 }
 
+// async function submitQuiz() {
+//   const userId = getUserId();
+//   const chapterId = localStorage.getItem("chapterId");
+
+//   let correct = 0;
+
+//   questions.forEach((q, i) => {
+//     if (answers[i] === q.answer) correct++;
+//   });
+
+//   const total = questions.length;
+//   const score = correct;
+
+//   const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+
+//   await api("submitTest", {
+//     userId,
+//     chapterId,
+//     score,
+//     total,
+//     timeTaken,
+//   });
+
+//   alert(`Score: ${score}/${total}`);
+
+//   window.location.href = "practice.html";
+// }
+
 async function submitQuiz() {
+  const btn = document.getElementById("submitBtn");
+  const text = document.getElementById("submitText");
+  const loader = document.getElementById("submitLoader");
+
+  btn.disabled = true;
+  text.innerText = "Submitting...";
+  loader.classList.remove("hidden");
+
   const userId = getUserId();
   const chapterId = localStorage.getItem("chapterId");
 
@@ -101,7 +143,6 @@ async function submitQuiz() {
 
   const total = questions.length;
   const score = correct;
-
   const timeTaken = Math.floor((Date.now() - startTime) / 1000);
 
   await api("submitTest", {
@@ -113,7 +154,6 @@ async function submitQuiz() {
   });
 
   alert(`Score: ${score}/${total}`);
-
   window.location.href = "practice.html";
 }
 
@@ -157,4 +197,88 @@ async function saveNote() {
   });
 
   document.getElementById("note-box").classList.add("hidden");
+}
+
+async function sendChat() {
+  const input = document.getElementById("chat-input");
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, "user");
+  input.value = "";
+
+  const currentQ = questions[current].question;
+
+  const res = await api("chat", {
+    query: text,
+    question: currentQ,
+  });
+
+  addMessage(res.reply, "bot");
+}
+
+function addMessage(text, type) {
+  const chatBody = document.getElementById("chat-body");
+
+  const div = document.createElement("div");
+  div.className = "chat-msg " + type;
+  div.innerText = text;
+
+  chatBody.appendChild(div);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function toggleChat() {
+  const chat = document.getElementById("chatbot");
+
+  if (chat.classList.contains("chat-hidden")) {
+    chat.classList.remove("chat-hidden");
+  } else {
+    chat.classList.add("chat-hidden");
+  }
+}
+
+async function sendChat() {
+  const input = document.getElementById("chat-input");
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, "user");
+  input.value = "";
+
+  const typingId = addTyping();
+
+  try {
+    const res = await api("chat", { query: text });
+
+    removeTyping(typingId);
+    addMessage(res.reply || "No response", "bot");
+  } catch (err) {
+    removeTyping(typingId);
+    addMessage("Something went wrong", "bot");
+  }
+}
+
+function addTyping() {
+  const chatBody = document.getElementById("chat-body");
+
+  const div = document.createElement("div");
+  div.className = "chat-msg bot typing";
+  div.id = "typing-" + Date.now();
+
+  div.innerHTML = `
+    <span></span>
+    <span></span>
+    <span></span>
+  `;
+
+  chatBody.appendChild(div);
+  chatBody.scrollTop = chatBody.scrollHeight;
+
+  return div.id;
+}
+
+function removeTyping(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
 }
