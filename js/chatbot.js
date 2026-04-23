@@ -1,4 +1,4 @@
-const GEMINI_API_KEY = "AIzaSyBuH25vZwdXWjH0Fz4rKm2SHmordFNa-oc";
+const GEMINI_API_KEY = "API KEY HERE";
 
 async function askGemini(userQuery, questionObj) {
   const prompt = `
