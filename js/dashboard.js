@@ -112,29 +112,132 @@ function renderStats(data) {
     (data.mainsCompletion ?? 0) + "%";
 }
 
+// function renderCharts(data) {
+//   const ctx1 = document.getElementById("prelimsChart");
+//   const ctx2 = document.getElementById("mainsChart");
+//   const ctx3 = document.getElementById("consistencyChart");
+
+//   if (prelimsChart) prelimsChart.destroy();
+//   if (mainsChart) mainsChart.destroy();
+//   if (consistencyChart) consistencyChart.destroy();
+
+//   prelimsChart = new Chart(ctx1, {
+//     type: "line",
+//     data: data.prelimsChart,
+//   });
+
+//   mainsChart = new Chart(ctx2, {
+//     type: "line",
+//     data: data.mainsChart,
+//   });
+
+//   consistencyChart = new Chart(ctx3, {
+//     type: "line",
+//     data: data.consistencyChart,
+//   });
+// }
+
 function renderCharts(data) {
-  const ctx1 = document.getElementById("prelimsChart");
-  const ctx2 = document.getElementById("mainsChart");
-  const ctx3 = document.getElementById("consistencyChart");
+  const canvas1 = document.getElementById("prelimsChart");
+  const canvas2 = document.getElementById("mainsChart");
+  const canvas3 = document.getElementById("consistencyChart");
 
   if (prelimsChart) prelimsChart.destroy();
   if (mainsChart) mainsChart.destroy();
   if (consistencyChart) consistencyChart.destroy();
 
-  prelimsChart = new Chart(ctx1, {
-    type: "line",
-    data: data.prelimsChart,
-  });
+  function createChart(canvas, chartData, lineColor) {
+    const ctx = canvas.getContext("2d");
 
-  mainsChart = new Chart(ctx2, {
-    type: "line",
-    data: data.mainsChart,
-  });
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
 
-  consistencyChart = new Chart(ctx3, {
-    type: "line",
-    data: data.consistencyChart,
-  });
+    gradient.addColorStop(0, lineColor.replace("1)", "0.45)"));
+    gradient.addColorStop(0.5, lineColor.replace("1)", "0.15)"));
+    gradient.addColorStop(1, lineColor.replace("1)", "0)"));
+
+    return new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: chartData.labels,
+        datasets: [
+          {
+            data: chartData.datasets[0].data,
+            label: chartData.datasets[0].label,
+            borderColor: lineColor,
+            backgroundColor: gradient,
+            fill: true,
+            borderWidth: 3,
+            tension: 0.45,
+            pointRadius: 0,
+            pointHoverRadius: 6,
+            pointHoverBackgroundColor: lineColor,
+            pointHoverBorderWidth: 0,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          intersect: false,
+          mode: "index",
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            backgroundColor: "#111827",
+            titleColor: "#ffffff",
+            bodyColor: "#ffffff",
+            displayColors: false,
+            padding: 12,
+            cornerRadius: 10,
+          },
+        },
+        scales: {
+          x: {
+            grid: {
+              color: "rgba(255,255,255,0.05)",
+              drawBorder: false,
+            },
+            ticks: {
+              color: "#94a3b8",
+            },
+          },
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: "rgba(255,255,255,0.05)",
+              drawBorder: false,
+            },
+            ticks: {
+              color: "#94a3b8",
+            },
+          },
+        },
+        elements: {
+          line: {
+            cubicInterpolationMode: "monotone",
+          },
+        },
+        animation: {
+          duration: 1200,
+          easing: "easeOutQuart",
+        },
+      },
+    });
+  }
+
+  prelimsChart = createChart(canvas1, data.prelimsChart, "rgba(59,130,246,1)");
+
+  mainsChart = createChart(canvas2, data.mainsChart, "rgba(34,197,94,1)");
+
+  consistencyChart = createChart(
+    canvas3,
+    data.consistencyChart,
+    "rgba(249,115,22,1)",
+  );
 }
 
 // async function markComplete(type) {
@@ -220,7 +323,7 @@ async function loadChapters(type) {
   fillChapterDropdown(
     `${type}-chapter`,
     res.chapters,
-    window.completedChapters || new Set()
+    window.completedChapters || new Set(),
   );
 }
 
