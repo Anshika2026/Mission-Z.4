@@ -104,6 +104,236 @@ async function loadDashboardData() {
 //   document.getElementById("mainsCompletion").innerText =
 //     data.mainsCompletion + "%";
 // }
+// function renderStats(data) {
+//   document.getElementById("prelimsCompletion").innerText =
+//     (data.prelimsCompletion ?? 0) + "%";
+
+//   document.getElementById("mainsCompletion").innerText =
+//     (data.mainsCompletion ?? 0) + "%";
+// }
+// function createStudyChart(canvas, chartData) {
+//   chartData.labels = chartData.labels.map((d) =>
+//     new Date(d).toLocaleDateString("en-IN", {
+//       day: "2-digit",
+//       month: "short",
+//     }),
+//   );
+
+//   const ctx = canvas.getContext("2d");
+
+//   const gradient = ctx.createLinearGradient(0, 0, 0, 350);
+
+//   gradient.addColorStop(0, "rgba(59,130,246,.45)");
+//   gradient.addColorStop(0.6, "rgba(59,130,246,.12)");
+//   gradient.addColorStop(1, "rgba(59,130,246,0)");
+
+//   return new Chart(ctx, {
+//     type: "line",
+
+//     data: {
+//       labels: chartData.labels,
+
+//       datasets: [
+//         {
+//           data: chartData.datasets[0].data,
+
+//           borderColor: "#3b82f6",
+
+//           backgroundColor: gradient,
+
+//           fill: true,
+
+//           borderWidth: 4,
+
+//           tension: 0.45,
+
+//           pointRadius: 0,
+
+//           pointHoverRadius: 7,
+
+//           pointHoverBackgroundColor: "#fff",
+
+//           pointHoverBorderColor: "#3b82f6",
+
+//           pointHoverBorderWidth: 4,
+//         },
+//       ],
+//     },
+
+//     options: {
+//       responsive: true,
+
+//       maintainAspectRatio: false,
+
+//       interaction: {
+//         mode: "index",
+
+//         intersect: false,
+//       },
+
+//       plugins: {
+//         legend: {
+//           display: false,
+//         },
+
+//         tooltip: {
+//           backgroundColor: "#111827",
+
+//           titleColor: "#fff",
+
+//           bodyColor: "#fff",
+
+//           cornerRadius: 12,
+
+//           padding: 14,
+
+//           displayColors: false,
+//         },
+//       },
+
+//       scales: {
+//         x: {
+//           grid: {
+//             display: false,
+//           },
+
+//           ticks: {
+//             color: "#94a3b8",
+
+//             maxRotation: 0,
+
+//             autoSkip: true,
+
+//             maxTicksLimit: 8,
+//           },
+//         },
+
+//         y: {
+//           beginAtZero: true,
+
+//           grid: {
+//             color: "rgba(255,255,255,.05)",
+//           },
+
+//           ticks: {
+//             color: "#94a3b8",
+//           },
+//         },
+//       },
+
+//       elements: {
+//         line: {
+//           cubicInterpolationMode: "monotone",
+//         },
+//       },
+
+//       animation: {
+//         duration: 1500,
+
+//         easing: "easeOutQuart",
+//       },
+//     },
+//   });
+// }
+
+// function renderCharts(data) {
+//   const canvas1 = document.getElementById("prelimsChart");
+//   const canvas2 = document.getElementById("mainsChart");
+//   const canvas3 = document.getElementById("consistencyChart");
+
+//   if (prelimsChart) prelimsChart.destroy();
+//   if (mainsChart) mainsChart.destroy();
+//   if (consistencyChart) consistencyChart.destroy();
+
+//   function createChart(canvas, chartData, lineColor) {
+//     const ctx = canvas.getContext("2d");
+
+//     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+
+//     gradient.addColorStop(0, lineColor.replace("1)", "0.45)"));
+//     gradient.addColorStop(0.5, lineColor.replace("1)", "0.15)"));
+//     gradient.addColorStop(1, lineColor.replace("1)", "0)"));
+
+//     return new Chart(ctx, {
+//       type: "line",
+//       data: {
+//         labels: chartData.labels,
+//         datasets: [
+//           {
+//             data: chartData.datasets[0].data,
+//             label: chartData.datasets[0].label,
+//             borderColor: lineColor,
+//             backgroundColor: gradient,
+//             fill: true,
+//             borderWidth: 3,
+//             tension: 0.45,
+//             pointRadius: 0,
+//             pointHoverRadius: 6,
+//             pointHoverBackgroundColor: lineColor,
+//             pointHoverBorderWidth: 0,
+//           },
+//         ],
+//       },
+//       options: {
+//         responsive: true,
+//         maintainAspectRatio: false,
+//         interaction: {
+//           intersect: false,
+//           mode: "index",
+//         },
+//         plugins: {
+//           legend: {
+//             display: false,
+//           },
+//           tooltip: {
+//             backgroundColor: "#111827",
+//             titleColor: "#ffffff",
+//             bodyColor: "#ffffff",
+//             displayColors: false,
+//             padding: 12,
+//             cornerRadius: 10,
+//           },
+//         },
+//         scales: {
+//           x: {
+//             grid: {
+//               color: "rgba(255,255,255,0.05)",
+//               drawBorder: false,
+//             },
+//             ticks: {
+//               color: "#94a3b8",
+//             },
+//           },
+//           y: {
+//             beginAtZero: true,
+//             grid: {
+//               color: "rgba(255,255,255,0.05)",
+//               drawBorder: false,
+//             },
+//             ticks: {
+//               color: "#94a3b8",
+//             },
+//           },
+//         },
+//         elements: {
+//           line: {
+//             cubicInterpolationMode: "monotone",
+//           },
+//         },
+//         animation: {
+//           duration: 1200,
+//           easing: "easeOutQuart",
+//         },
+//       },
+//     });
+//   }
+//   prelimsChart = createStudyChart(canvas1, data.prelimsChart);
+
+//   mainsChart = createStudyChart(canvas2, data.mainsChart);
+
+//   consistencyChart = createStudyChart(canvas3, data.consistencyChart);
+// }
+
 function renderStats(data) {
   document.getElementById("prelimsCompletion").innerText =
     (data.prelimsCompletion ?? 0) + "%";
@@ -112,58 +342,45 @@ function renderStats(data) {
     (data.mainsCompletion ?? 0) + "%";
 }
 
-// function renderCharts(data) {
-//   const ctx1 = document.getElementById("prelimsChart");
-//   const ctx2 = document.getElementById("mainsChart");
-//   const ctx3 = document.getElementById("consistencyChart");
+function hexToRgb(hex) {
+  const h = hex.replace("#", "");
 
-//   if (prelimsChart) prelimsChart.destroy();
-//   if (mainsChart) mainsChart.destroy();
-//   if (consistencyChart) consistencyChart.destroy();
+  return {
+    r: parseInt(h.substring(0, 2), 16),
+    g: parseInt(h.substring(2, 4), 16),
+    b: parseInt(h.substring(4, 6), 16),
+  };
+}
 
-//   prelimsChart = new Chart(ctx1, {
-//     type: "line",
-//     data: data.prelimsChart,
-//   });
+function createStudyChart(canvas, chartData, color) {
+  const ctx = canvas.getContext("2d");
 
-//   mainsChart = new Chart(ctx2, {
-//     type: "line",
-//     data: data.mainsChart,
-//   });
+  const rgb = hexToRgb(color);
 
-//   consistencyChart = new Chart(ctx3, {
-//     type: "line",
-//     data: data.consistencyChart,
-//   });
-// }
+  const gradient = ctx.createLinearGradient(0, 0, 0, 350);
 
-function createStudyChart(canvas, chartData) {
-  chartData.labels = chartData.labels.map((d) =>
+  gradient.addColorStop(0, `rgba(${rgb.r},${rgb.g},${rgb.b},0.45)`);
+  gradient.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},0.15)`);
+  gradient.addColorStop(1, `rgba(${rgb.r},${rgb.g},${rgb.b},0)`);
+
+  const labels = chartData.labels.map((d) =>
     new Date(d).toLocaleDateString("en-IN", {
       day: "2-digit",
       month: "short",
     }),
   );
 
-  const ctx = canvas.getContext("2d");
-
-  const gradient = ctx.createLinearGradient(0, 0, 0, 350);
-
-  gradient.addColorStop(0, "rgba(59,130,246,.45)");
-  gradient.addColorStop(0.6, "rgba(59,130,246,.12)");
-  gradient.addColorStop(1, "rgba(59,130,246,0)");
-
   return new Chart(ctx, {
     type: "line",
 
     data: {
-      labels: chartData.labels,
+      labels,
 
       datasets: [
         {
           data: chartData.datasets[0].data,
 
-          borderColor: "#3b82f6",
+          borderColor: color,
 
           backgroundColor: gradient,
 
@@ -171,20 +388,44 @@ function createStudyChart(canvas, chartData) {
 
           borderWidth: 4,
 
-          tension: 0.45,
+          tension: 0.6,
 
           pointRadius: 0,
 
-          pointHoverRadius: 7,
+          pointHoverRadius: 6,
 
-          pointHoverBackgroundColor: "#fff",
+          pointHoverBackgroundColor: "#ffffff",
 
-          pointHoverBorderColor: "#3b82f6",
+          pointHoverBorderColor: color,
 
-          pointHoverBorderWidth: 4,
+          pointHoverBorderWidth: 3,
         },
       ],
     },
+
+    plugins: [
+      {
+        id: "glow",
+
+        beforeDatasetsDraw(chart) {
+          const { ctx } = chart;
+
+          ctx.save();
+
+          ctx.shadowColor = color;
+
+          ctx.shadowBlur = 15;
+
+          ctx.shadowOffsetX = 0;
+
+          ctx.shadowOffsetY = 0;
+        },
+
+        afterDatasetsDraw(chart) {
+          chart.ctx.restore();
+        },
+      },
+    ],
 
     options: {
       responsive: true,
@@ -197,6 +438,12 @@ function createStudyChart(canvas, chartData) {
         intersect: false,
       },
 
+      animation: {
+        duration: 1400,
+
+        easing: "easeOutQuart",
+      },
+
       plugins: {
         legend: {
           display: false,
@@ -205,15 +452,15 @@ function createStudyChart(canvas, chartData) {
         tooltip: {
           backgroundColor: "#111827",
 
-          titleColor: "#fff",
+          titleColor: "#ffffff",
 
-          bodyColor: "#fff",
-
-          cornerRadius: 12,
-
-          padding: 14,
+          bodyColor: "#ffffff",
 
           displayColors: false,
+
+          cornerRadius: 10,
+
+          padding: 12,
         },
       },
 
@@ -230,7 +477,11 @@ function createStudyChart(canvas, chartData) {
 
             autoSkip: true,
 
-            maxTicksLimit: 8,
+            maxTicksLimit: 10,
+          },
+
+          border: {
+            display: false,
           },
         },
 
@@ -238,25 +489,17 @@ function createStudyChart(canvas, chartData) {
           beginAtZero: true,
 
           grid: {
-            color: "rgba(255,255,255,.05)",
+            color: "rgba(255,255,255,0.05)",
           },
 
           ticks: {
             color: "#94a3b8",
           },
+
+          border: {
+            display: false,
+          },
         },
-      },
-
-      elements: {
-        line: {
-          cubicInterpolationMode: "monotone",
-        },
-      },
-
-      animation: {
-        duration: 1500,
-
-        easing: "easeOutQuart",
       },
     },
   });
@@ -271,104 +514,15 @@ function renderCharts(data) {
   if (mainsChart) mainsChart.destroy();
   if (consistencyChart) consistencyChart.destroy();
 
-  function createChart(canvas, chartData, lineColor) {
-    const ctx = canvas.getContext("2d");
+  prelimsChart = createStudyChart(canvas1, data.prelimsChart, "#4ea5ff");
 
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  mainsChart = createStudyChart(canvas2, data.mainsChart, "#4ade80");
 
-    gradient.addColorStop(0, lineColor.replace("1)", "0.45)"));
-    gradient.addColorStop(0.5, lineColor.replace("1)", "0.15)"));
-    gradient.addColorStop(1, lineColor.replace("1)", "0)"));
-
-    return new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: chartData.labels,
-        datasets: [
-          {
-            data: chartData.datasets[0].data,
-            label: chartData.datasets[0].label,
-            borderColor: lineColor,
-            backgroundColor: gradient,
-            fill: true,
-            borderWidth: 3,
-            tension: 0.45,
-            pointRadius: 0,
-            pointHoverRadius: 6,
-            pointHoverBackgroundColor: lineColor,
-            pointHoverBorderWidth: 0,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: {
-          intersect: false,
-          mode: "index",
-        },
-        plugins: {
-          legend: {
-            display: false,
-          },
-          tooltip: {
-            backgroundColor: "#111827",
-            titleColor: "#ffffff",
-            bodyColor: "#ffffff",
-            displayColors: false,
-            padding: 12,
-            cornerRadius: 10,
-          },
-        },
-        scales: {
-          x: {
-            grid: {
-              color: "rgba(255,255,255,0.05)",
-              drawBorder: false,
-            },
-            ticks: {
-              color: "#94a3b8",
-            },
-          },
-          y: {
-            beginAtZero: true,
-            grid: {
-              color: "rgba(255,255,255,0.05)",
-              drawBorder: false,
-            },
-            ticks: {
-              color: "#94a3b8",
-            },
-          },
-        },
-        elements: {
-          line: {
-            cubicInterpolationMode: "monotone",
-          },
-        },
-        animation: {
-          duration: 1200,
-          easing: "easeOutQuart",
-        },
-      },
-    });
-  }
-
-  // prelimsChart = createChart(canvas1, data.prelimsChart, "rgba(59,130,246,1)");
-
-  // mainsChart = createChart(canvas2, data.mainsChart, "rgba(34,197,94,1)");
-
-  // consistencyChart = createChart(
-  //   canvas3,
-  //   data.consistencyChart,
-  //   "rgba(249,115,22,1)",
-  // );
-
-  prelimsChart = createStudyChart(canvas1, data.prelimsChart);
-
-  mainsChart = createStudyChart(canvas2, data.mainsChart);
-
-  consistencyChart = createStudyChart(canvas3, data.consistencyChart);
+  consistencyChart = createStudyChart(
+    canvas3,
+    data.consistencyChart,
+    "#fb923c",
+  );
 }
 
 // async function markComplete(type) {
