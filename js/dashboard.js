@@ -137,6 +137,131 @@ function renderStats(data) {
 //   });
 // }
 
+function createStudyChart(canvas, chartData) {
+  chartData.labels = chartData.labels.map((d) =>
+    new Date(d).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+    }),
+  );
+
+  const ctx = canvas.getContext("2d");
+
+  const gradient = ctx.createLinearGradient(0, 0, 0, 350);
+
+  gradient.addColorStop(0, "rgba(59,130,246,.45)");
+  gradient.addColorStop(0.6, "rgba(59,130,246,.12)");
+  gradient.addColorStop(1, "rgba(59,130,246,0)");
+
+  return new Chart(ctx, {
+    type: "line",
+
+    data: {
+      labels: chartData.labels,
+
+      datasets: [
+        {
+          data: chartData.datasets[0].data,
+
+          borderColor: "#3b82f6",
+
+          backgroundColor: gradient,
+
+          fill: true,
+
+          borderWidth: 4,
+
+          tension: 0.45,
+
+          pointRadius: 0,
+
+          pointHoverRadius: 7,
+
+          pointHoverBackgroundColor: "#fff",
+
+          pointHoverBorderColor: "#3b82f6",
+
+          pointHoverBorderWidth: 4,
+        },
+      ],
+    },
+
+    options: {
+      responsive: true,
+
+      maintainAspectRatio: false,
+
+      interaction: {
+        mode: "index",
+
+        intersect: false,
+      },
+
+      plugins: {
+        legend: {
+          display: false,
+        },
+
+        tooltip: {
+          backgroundColor: "#111827",
+
+          titleColor: "#fff",
+
+          bodyColor: "#fff",
+
+          cornerRadius: 12,
+
+          padding: 14,
+
+          displayColors: false,
+        },
+      },
+
+      scales: {
+        x: {
+          grid: {
+            display: false,
+          },
+
+          ticks: {
+            color: "#94a3b8",
+
+            maxRotation: 0,
+
+            autoSkip: true,
+
+            maxTicksLimit: 8,
+          },
+        },
+
+        y: {
+          beginAtZero: true,
+
+          grid: {
+            color: "rgba(255,255,255,.05)",
+          },
+
+          ticks: {
+            color: "#94a3b8",
+          },
+        },
+      },
+
+      elements: {
+        line: {
+          cubicInterpolationMode: "monotone",
+        },
+      },
+
+      animation: {
+        duration: 1500,
+
+        easing: "easeOutQuart",
+      },
+    },
+  });
+}
+
 function renderCharts(data) {
   const canvas1 = document.getElementById("prelimsChart");
   const canvas2 = document.getElementById("mainsChart");
@@ -229,15 +354,21 @@ function renderCharts(data) {
     });
   }
 
-  prelimsChart = createChart(canvas1, data.prelimsChart, "rgba(59,130,246,1)");
+  // prelimsChart = createChart(canvas1, data.prelimsChart, "rgba(59,130,246,1)");
 
-  mainsChart = createChart(canvas2, data.mainsChart, "rgba(34,197,94,1)");
+  // mainsChart = createChart(canvas2, data.mainsChart, "rgba(34,197,94,1)");
 
-  consistencyChart = createChart(
-    canvas3,
-    data.consistencyChart,
-    "rgba(249,115,22,1)",
-  );
+  // consistencyChart = createChart(
+  //   canvas3,
+  //   data.consistencyChart,
+  //   "rgba(249,115,22,1)",
+  // );
+
+  prelimsChart = createStudyChart(canvas1, data.prelimsChart);
+
+  mainsChart = createStudyChart(canvas2, data.mainsChart);
+
+  consistencyChart = createStudyChart(canvas3, data.consistencyChart);
 }
 
 // async function markComplete(type) {
