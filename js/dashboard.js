@@ -644,25 +644,187 @@ async function saveHours() {
 
   loadStudyChart();
 }
+// async function loadStudyChart() {
+//   const userId = getUserId();
+
+//   const res = await api("getStudyHours", { userId });
+
+//   const ctx = document.getElementById("consistencyChart");
+
+//   if (consistencyChart) consistencyChart.destroy();
+
+//   consistencyChart = new Chart(ctx, {
+//     type: "line",
+//     data: {
+//       labels: res.labels,
+//       datasets: [
+//         {
+//           label: "Study Hours",
+//           data: res.data,
+//         },
+//       ],
+//     },
+//   });
+// }
 async function loadStudyChart() {
   const userId = getUserId();
 
   const res = await api("getStudyHours", { userId });
 
-  const ctx = document.getElementById("consistencyChart");
+  const canvas = document.getElementById("consistencyChart");
 
   if (consistencyChart) consistencyChart.destroy();
 
+  const ctx = canvas.getContext("2d");
+
+  const gradient = ctx.createLinearGradient(0, 0, 0, 350);
+
+  gradient.addColorStop(0, "rgba(59,130,246,0.45)");
+  gradient.addColorStop(0.5, "rgba(59,130,246,0.15)");
+  gradient.addColorStop(1, "rgba(59,130,246,0)");
+
+  const labels = res.labels.map((date) =>
+    new Date(date).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+    }),
+  );
+
   consistencyChart = new Chart(ctx, {
     type: "line",
+
     data: {
-      labels: res.labels,
+      labels,
+
       datasets: [
         {
           label: "Study Hours",
+
           data: res.data,
+
+          borderColor: "#3b82f6",
+
+          backgroundColor: gradient,
+
+          fill: true,
+
+          borderWidth: 4,
+
+          tension: 0.6,
+
+          pointRadius: 0,
+
+          pointHoverRadius: 7,
+
+          pointHoverBackgroundColor: "#ffffff",
+
+          pointHoverBorderColor: "#3b82f6",
+
+          pointHoverBorderWidth: 3,
         },
       ],
+    },
+
+    plugins: [
+      {
+        id: "glow",
+
+        beforeDatasetsDraw(chart) {
+          const { ctx } = chart;
+
+          ctx.save();
+
+          ctx.shadowColor = "#3b82f6";
+
+          ctx.shadowBlur = 15;
+
+          ctx.shadowOffsetX = 0;
+
+          ctx.shadowOffsetY = 0;
+        },
+
+        afterDatasetsDraw(chart) {
+          chart.ctx.restore();
+        },
+      },
+    ],
+
+    options: {
+      responsive: true,
+
+      maintainAspectRatio: false,
+
+      interaction: {
+        mode: "index",
+
+        intersect: false,
+      },
+
+      animation: {
+        duration: 1500,
+
+        easing: "easeOutQuart",
+      },
+
+      plugins: {
+        legend: {
+          display: false,
+        },
+
+        tooltip: {
+          backgroundColor: "#111827",
+
+          titleColor: "#ffffff",
+
+          bodyColor: "#ffffff",
+
+          displayColors: false,
+
+          cornerRadius: 10,
+
+          padding: 12,
+        },
+      },
+
+      scales: {
+        x: {
+          grid: {
+            display: false,
+          },
+
+          ticks: {
+            color: "#94a3b8",
+
+            maxRotation: 0,
+
+            minRotation: 0,
+
+            autoSkip: true,
+
+            maxTicksLimit: 10,
+          },
+
+          border: {
+            display: false,
+          },
+        },
+
+        y: {
+          beginAtZero: true,
+
+          grid: {
+            color: "rgba(255,255,255,0.05)",
+          },
+
+          ticks: {
+            color: "#94a3b8",
+          },
+
+          border: {
+            display: false,
+          },
+        },
+      },
     },
   });
 }
