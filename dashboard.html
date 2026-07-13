@@ -12,6 +12,7 @@
   <div id="welcomeUser" class="welcome-text"></div>
   <div>
     <button onclick="goToPractice()">Practice</button>
+    <button onclick="viewWeakness()">📉 Weakness</button>
     <button onclick="logout()">Logout</button>
     <button onclick="toggleTheme()">🌙</button>
   </div>
@@ -33,39 +34,39 @@
 
   <section class="charts">
 
-    <div class="chart-box">
-      <h3>Prelims Progress</h3>
+<div class="chart-box">
+  <div class="chart-box-title-row">
+    <h3>Prelims Progress</h3>
+    <button class="view-progress-btn" onclick="viewProgress('prelims')">View Progress</button>
+  </div>
 
-      <!-- <select id="prelims-subject"></select>
-      <select id="prelims-chapter"></select> -->
-      <select id="prelims-subject" onchange="loadChapters('prelims')"></select>
-<select id="prelims-chapter"></select>
+  <select id="prelims-subject" onchange="loadChapters('prelims')"></select>
+  <select id="prelims-chapter"></select>
 
-      <!-- <button onclick="markComplete('prelims')">✔ Mark Complete</button> -->
-       <button id="prelimsBtn" onclick="markComplete('prelims')">
-  <span class="btn-text">✔ Mark Complete</span>
-  <span class="btn-loader hidden"></span>
-</button>
+  <button id="prelimsBtn" onclick="markComplete('prelims')">
+    <span class="btn-text">✔ Mark Complete</span>
+    <span class="btn-loader hidden"></span>
+  </button>
 
-      <canvas id="prelimsChart"></canvas>
-    </div>
+  <canvas id="prelimsChart"></canvas>
+</div>
 
-    <div class="chart-box">
-      <h3>Mains Progress</h3>
+<div class="chart-box">
+  <div class="chart-box-title-row">
+    <h3>Mains Progress</h3>
+    <button class="view-progress-btn" onclick="viewProgress('mains')">View Progress</button>
+  </div>
 
-      <!-- <select id="mains-subject"></select>
-      <select id="mains-chapter"></select> -->
-      <select id="mains-subject" onchange="loadChapters('mains')"></select>
-<select id="mains-chapter"></select>
+  <select id="mains-subject" onchange="loadChapters('mains')"></select>
+  <select id="mains-chapter"></select>
 
-      <!-- <button onclick="markComplete('mains')">✔ Mark Complete</button> -->
-       <button id="mainsBtn" onclick="markComplete('mains')">
-  <span class="btn-text">✔ Mark Complete</span>
-  <span class="btn-loader hidden"></span>
-</button>
+  <button id="mainsBtn" onclick="markComplete('mains')">
+    <span class="btn-text">✔ Mark Complete</span>
+    <span class="btn-loader hidden"></span>
+  </button>
 
-      <canvas id="mainsChart"></canvas>
-    </div>
+  <canvas id="mainsChart"></canvas>
+</div>
 
   </section>
 
@@ -82,6 +83,46 @@
   </section>
 
 </main>
+
+<!-- Progress Report Modal -->
+<div id="progress-report-overlay" class="modal-overlay hidden">
+  <div class="modal-card progress-report-card">
+    <div class="report-header">
+      <div>
+        <h3 id="progressReportTitle">Prelims Progress Report</h3>
+        <p class="modal-subtext">Subject-wise completion breakdown</p>
+      </div>
+      <span id="closeProgressReport" class="modal-close">✖</span>
+    </div>
+
+    <div class="report-summary-row" id="progressSummaryRow"></div>
+
+    <div class="progress-subject-list" id="progressSubjectList"></div>
+
+    <div class="report-footer">
+      <button id="downloadReportBtn" class="continue-btn-solid">⬇ Download Report</button>
+    </div>
+  </div>
+</div>
+
+<!-- Weakness Report Modal -->
+<div id="weakness-overlay" class="modal-overlay hidden">
+  <div class="modal-card progress-report-card">
+    <div class="report-header">
+      <div>
+        <h3>Weakness Report</h3>
+        <p class="modal-subtext">Chapters flagged by low accuracy or slow attempt time</p>
+      </div>
+      <span id="closeWeaknessReport" class="modal-close">✖</span>
+    </div>
+
+    <div class="report-summary-row" id="weaknessSummaryRow"></div>
+
+    <div id="topWeakSection"></div>
+
+    <div class="progress-subject-list" id="weaknessSubjectList"></div>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="js/api.js"></script>

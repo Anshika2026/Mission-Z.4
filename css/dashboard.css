@@ -231,3 +231,433 @@ body.light .consistency {
     padding:24px;
     border-radius:18px;
 }
+.chart-box select {
+    width: 39%;
+    margin: 12px 0;
+    padding: 8px 42px 8px 14px;
+    border-radius: 7px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /* appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none; */
+}
+
+.chart-box select{
+    width:39%;
+    margin:12px 0;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:8px;
+    background:#ffffff;
+    color:#111827;
+    font-size:14px;
+    font-weight:500;
+    outline:none;
+    cursor:pointer;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    transition:.25s;
+}
+
+.chart-box select:hover{
+    border-color:#22c55e;
+}
+
+.chart-box select:focus{
+    border-color:#22c55e;
+    box-shadow:0 0 0 3px rgba(34,197,94,.2);
+}
+.chart-box select{
+    margin:12px 0;
+    border:1px solid rgba(255,255,255,.12);
+    background:#ffffff;
+    color:#111827;
+    font-size:15px;
+    font-weight:500;
+    outline:none;
+    cursor:pointer;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    transition:.25s;
+}
+
+.chart-box select:hover{
+    border-color:#22c55e;
+}
+
+.chart-box select:focus{
+    border-color:#22c55e;
+    box-shadow:0 0 0 3px rgba(34,197,94,.2);
+}
+
+/* .view-progress-btn {
+  width: 100%;
+  padding: 8px 12px;
+  margin: 4px 0 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  background: transparent;
+  color: #cbd5e1;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s;
+} */
+
+body.light .view-progress-btn {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #334155;
+}
+
+.view-progress-btn:hover {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+/* MODAL (shared base, in case not already present) */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 12, 24, 0.72);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 400px;
+  background: #16213a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 32px 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+}
+
+body.light .modal-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.modal-subtext {
+  font-size: 13.5px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.continue-btn-solid {
+  width: 100%;
+  padding: 13px 0;
+  border: none;
+  border-radius: 10px;
+  background: #22c55e;
+  color: white;
+  font-weight: 600;
+  font-size: 14.5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.continue-btn-solid:hover {
+  background: #16a34a;
+}
+
+/* PROGRESS REPORT SPECIFIC */
+.progress-report-card {
+  max-width: 640px;
+  max-height: 85vh;
+  overflow-y: auto;
+  text-align: left;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 transparent;
+}
+
+.progress-report-card::-webkit-scrollbar {
+  width: 6px;
+}
+
+.progress-report-card::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 10px;
+}
+
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.report-header h3 {
+  margin-bottom: 4px;
+}
+
+.modal-close {
+  cursor: pointer;
+  font-size: 16px;
+  color: #94a3b8;
+  padding: 4px;
+}
+
+.modal-close:hover {
+  color: #ef4444;
+}
+
+.report-summary-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.summary-tile {
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+body.light .summary-tile {
+  background: #f8fafc;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.summary-tile .num {
+  font-size: 20px;
+  font-weight: 700;
+  display: block;
+}
+
+.summary-tile .lbl {
+  font-size: 11px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.subject-card {
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: #101c33;
+}
+
+body.light .subject-card {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.subject-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  cursor: pointer;
+}
+
+.subject-card-header:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.subject-name-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.subject-name {
+  font-weight: 600;
+  font-size: 14.5px;
+}
+
+.subject-progress-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+body.light .subject-progress-bar-track {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.subject-progress-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+  transition: width 0.6s ease;
+}
+
+.subject-percent-badge {
+  font-size: 13px;
+  font-weight: 700;
+  margin-left: 14px;
+  min-width: 42px;
+  text-align: right;
+}
+
+.subject-percent-badge.complete { color: #22c55e; }
+.subject-percent-badge.partial { color: #fbbf24; }
+.subject-percent-badge.none { color: #ef4444; }
+
+.chevron {
+  margin-left: 10px;
+  color: #64748b;
+  transition: transform 0.2s;
+  font-size: 12px;
+}
+
+.subject-card.open .chevron {
+  transform: rotate(180deg);
+}
+
+.chapter-table {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.subject-card.open .chapter-table {
+  max-height: 600px;
+}
+
+.chapter-row-report {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.chapter-row-report:last-child {
+  border-bottom: none;
+}
+
+.chapter-name-cell {
+  color: #cbd5e1;
+}
+
+body.light .chapter-name-cell {
+  color: #334155;
+}
+
+.status-badge {
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-badge.done { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+.status-badge.pending { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+.attempts-cell {
+  font-size: 12px;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.report-footer {
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.chart-box-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chart-box-title-row h3 {
+  margin: 0;
+}
+
+.view-progress-btn {
+  border: none;
+  background: none !important;
+  padding: 4px 0;
+  /* color: #22c55e; */
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  transition: 0.2s;
+}
+
+.view-progress-btn:hover {
+  color: #16a34a;
+  text-decoration: underline;
+}
+
+body.light .view-progress-btn {
+  color: #16a34a;
+}
+
+body.light .view-progress-btn:hover {
+  color: #15803d;
+}
+
+.top-weak-list {
+  margin-bottom: 22px;
+}
+
+.top-weak-list h4 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+
+.top-weak-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.top-weak-item .twi-name {
+  font-weight: 600;
+}
+
+.top-weak-item .twi-sub {
+  color: #94a3b8;
+  font-size: 11.5px;
+}
+
+.top-weak-item .twi-stats {
+  text-align: right;
+  color: #ef4444;
+  font-weight: 700;
+  font-size: 12.5px;
+}
+
+.status-badge.weak { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+.status-badge.average { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+.status-badge.strong { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+.status-badge.no-data { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }

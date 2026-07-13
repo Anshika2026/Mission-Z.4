@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   const BASE_URL =
-    "https://script.google.com/macros/s/AKfycbz1rJ7G6pShVjUP8sdYI-2Jv_Xvvzw9lsvtD74DOcEx_XO7Ou-tk3qZviqNlgRMMG9V/exec";
+    "https://script.google.com/macros/s/AKfycbxulr6we6bo9LM11C1wLiPVicjZazxtYG7qeH-zfCKIpA1FevSHQHW1N7YIO6O9n6Td/exec";
 
   try {
     const { action, ...data } = req.body;

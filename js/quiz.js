@@ -2,7 +2,10 @@ let questions = [];
 let current = 0;
 let answers = [];
 let startTime;
-
+let visited = [];
+let targetSeconds = 0;
+let remainingSeconds = 0;
+let timerInterval = null;
 document.addEventListener("DOMContentLoaded", initQuiz);
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("chat-input");
@@ -20,7 +23,7 @@ async function initQuiz() {
 
   questions = res.questions;
   answers = new Array(questions.length).fill(null);
-
+  visited = new Array(questions.length).fill(false);
   startTime = Date.now();
 
   renderQuestion();
@@ -28,10 +31,7 @@ async function initQuiz() {
 
 function renderQuestion() {
   const q = questions[current];
-
-  // document.getElementById("question-number").innerText = `Question ${
-  //   current + 1
-  // }`;
+  visited[current] = true;
   document.getElementById("question-number").innerText = `Question ${
     current + 1
   }/${questions.length}`;
@@ -46,7 +46,13 @@ function renderQuestion() {
   //   div.className = "option";
   //   div.innerText = opt;
 
-  //   if (answers[current] === i) div.classList.add("selected");
+  //   if (answers[current] === i) {
+  //     if (i === q.answer) {
+  //       div.classList.add("correct");
+  //     } else {
+  //       div.classList.add("wrong");
+  //     }
+  //   }
 
   //   div.onclick = () => {
   //     answers[current] = i;
@@ -55,26 +61,35 @@ function renderQuestion() {
 
   //   container.appendChild(div);
   // });
+
+  const isLocked = answers[current] !== null;
+
   q.options.forEach((opt, i) => {
     const div = document.createElement("div");
     div.className = "option";
     div.innerText = opt;
 
-    if (answers[current] === i) {
+    if (isLocked) {
+      // Selected option: green if correct, red if wrong
+      if (answers[current] === i) {
+        div.classList.add(i === q.answer ? "correct" : "wrong");
+      }
+      // Always reveal the actual correct answer once locked
       if (i === q.answer) {
         div.classList.add("correct");
-      } else {
-        div.classList.add("wrong");
       }
+      div.classList.add("locked");
+    } else {
+      div.onclick = () => {
+        answers[current] = i;
+        renderQuestion();
+      };
     }
-
-    div.onclick = () => {
-      answers[current] = i;
-      renderQuestion();
-    };
 
     container.appendChild(div);
   });
+
+  renderPalette();
 }
 
 function nextQuestion() {
@@ -96,6 +111,14 @@ function skipQuestion() {
 }
 
 // async function submitQuiz() {
+//   const btn = document.getElementById("submitBtn");
+//   const text = document.getElementById("submitText");
+//   const loader = document.getElementById("submitLoader");
+
+//   btn.disabled = true;
+//   text.innerText = "Submitting...";
+//   loader.classList.remove("hidden");
+
 //   const userId = getUserId();
 //   const chapterId = localStorage.getItem("chapterId");
 
@@ -107,7 +130,6 @@ function skipQuestion() {
 
 //   const total = questions.length;
 //   const score = correct;
-
 //   const timeTaken = Math.floor((Date.now() - startTime) / 1000);
 
 //   await api("submitTest", {
@@ -119,11 +141,12 @@ function skipQuestion() {
 //   });
 
 //   alert(`Score: ${score}/${total}`);
-
 //   window.location.href = "practice.html";
 // }
 
 async function submitQuiz() {
+  if (timerInterval) clearInterval(timerInterval);
+
   const btn = document.getElementById("submitBtn");
   const text = document.getElementById("submitText");
   const loader = document.getElementById("submitLoader");
@@ -136,9 +159,17 @@ async function submitQuiz() {
   const chapterId = localStorage.getItem("chapterId");
 
   let correct = 0;
+  let wrong = 0;
+  let skipped = 0;
 
   questions.forEach((q, i) => {
-    if (answers[i] === q.answer) correct++;
+    if (answers[i] === null) {
+      skipped++;
+    } else if (answers[i] === q.answer) {
+      correct++;
+    } else {
+      wrong++;
+    }
   });
 
   const total = questions.length;
@@ -153,21 +184,59 @@ async function submitQuiz() {
     timeTaken,
   });
 
-  alert(`Score: ${score}/${total}`);
-  window.location.href = "practice.html";
+  showReport({ correct, wrong, skipped, total, timeTaken });
 }
 
+function showReport({ correct, wrong, skipped, total, timeTaken }) {
+  const percent = total ? Math.round((correct / total) * 100) : 0;
+
+  document.getElementById("statCorrect").innerText = correct;
+  document.getElementById("statWrong").innerText = wrong;
+  document.getElementById("statSkipped").innerText = skipped;
+  document.getElementById("statTime").innerText = formatTime(timeTaken);
+  document.getElementById("reportPercent").innerText = `${percent}%`;
+  document.getElementById("reportScoreLine").innerText =
+    `You scored ${correct} / ${total}`;
+
+  const ring = document.getElementById("ringFill");
+  const circumference = 327;
+  const offset = circumference - (percent / 100) * circumference;
+
+  ring.style.stroke =
+    percent >= 70 ? "#22c55e" : percent >= 40 ? "#fbbf24" : "#ef4444";
+
+  // reset then animate
+  ring.style.transition = "none";
+  ring.style.strokeDashoffset = circumference;
+  requestAnimationFrame(() => {
+    ring.style.transition =
+      "stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1), stroke 0.3s";
+    ring.style.strokeDashoffset = offset;
+  });
+
+  document.getElementById("report-overlay").classList.remove("hidden");
+
+  document.getElementById("reportContinueBtn").onclick = () => {
+    window.location.href = "practice.html";
+  };
+}
+
+function formatTime(totalSeconds) {
+  const mins = Math.floor(totalSeconds / 60);
+  const secs = totalSeconds % 60;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
+
+// function exitQuiz() {
+//   window.location.href = "practice.html";
+// }
+
 function exitQuiz() {
+  if (timerInterval) clearInterval(timerInterval);
   window.location.href = "practice.html";
 }
 let notes = {};
 
-// function toggleNote() {
-//   document.getElementById("note-box").classList.toggle("hidden");
-
-//   const existing = notes[current] || "";
-//   document.getElementById("note-input").value = existing;
-// }
 function toggleNote() {
   const box = document.getElementById("note-box");
   box.classList.toggle("hidden");
@@ -175,12 +244,6 @@ function toggleNote() {
   document.getElementById("note-input").value = notes[current] || "";
 }
 
-// function saveNote() {
-//   const text = document.getElementById("note-input").value;
-//   notes[current] = text;
-
-//   document.getElementById("note-box").classList.add("hidden");
-// }
 async function saveNote() {
   const text = document.getElementById("note-input").value;
 
@@ -281,4 +344,101 @@ function addTyping() {
 function removeTyping(id) {
   const el = document.getElementById(id);
   if (el) el.remove();
+}
+function renderPalette() {
+  const container = document.getElementById("question-palette");
+  container.innerHTML = `<div class="palette-title">Questions</div>`;
+
+  questions.forEach((q, i) => {
+    const btn = document.createElement("button");
+    btn.className = "palette-btn";
+    btn.innerText = i + 1;
+
+    if (answers[i] !== null) {
+      btn.classList.add(answers[i] === q.answer ? "correct" : "wrong");
+    } else if (visited[i]) {
+      btn.classList.add("skipped");
+    } else {
+      btn.classList.add("unattempted");
+    }
+
+    if (i === current) btn.classList.add("active");
+
+    btn.onclick = () => goToQuestion(i);
+
+    container.appendChild(btn);
+  });
+}
+function goToQuestion(index) {
+  current = index;
+  renderQuestion();
+}
+
+document.addEventListener("DOMContentLoaded", setupTimeTarget);
+
+function setupTimeTarget() {
+  const overlay = document.getElementById("time-setup-overlay");
+  const opts = document.querySelectorAll(".time-opt");
+  const customInput = document.getElementById("custom-time-input");
+  const customBtn = document.getElementById("customTimeBtn");
+
+  opts.forEach((btn) => {
+    btn.onclick = () => {
+      const mins = parseInt(btn.dataset.mins, 10);
+      overlay.classList.add("hidden");
+      startTimer(mins);
+    };
+  });
+
+  customBtn.onclick = () => {
+    const mins = parseInt(customInput.value, 10);
+    if (!mins || mins <= 0) {
+      alert("Enter a valid number of minutes");
+      return;
+    }
+    overlay.classList.add("hidden");
+    startTimer(mins);
+  };
+
+  document.getElementById("extend5Btn").onclick = () => extendTimer(5);
+  document.getElementById("extend10Btn").onclick = () => extendTimer(10);
+  document.getElementById("continueBtn").onclick = () => {
+    document.getElementById("time-warning-overlay").classList.add("hidden");
+  };
+}
+
+function startTimer(minutes) {
+  targetSeconds = minutes * 60;
+  remainingSeconds = targetSeconds;
+
+  if (timerInterval) clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+    remainingSeconds--;
+
+    if (remainingSeconds <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      showTimeWarning();
+    }
+  }, 1000);
+}
+
+function showTimeWarning() {
+  document.getElementById("time-warning-overlay").classList.remove("hidden");
+}
+
+function extendTimer(minutes) {
+  remainingSeconds = minutes * 60;
+  document.getElementById("time-warning-overlay").classList.add("hidden");
+
+  timerInterval = setInterval(() => {
+    remainingSeconds--;
+
+    if (remainingSeconds <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      showTimeWarning();
+    }
+  }, 1000);
 }

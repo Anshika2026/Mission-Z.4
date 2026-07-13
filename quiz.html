@@ -17,6 +17,11 @@
 
 <main class="quiz">
 
+  <aside class="question-palette" id="question-palette"></aside>
+
+  <div class="quiz-box">
+
+<div class="quiz-header">
   <div class="quiz-box">
 
 <div class="quiz-header">
@@ -54,6 +59,83 @@
   </div>
 </div> -->
 </main>
+
+<!-- Time Target Setup Modal -->
+<div id="time-setup-overlay" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-icon">⏱️</div>
+    <h3>Set Your Time Target</h3>
+    <p class="modal-subtext">Choose a target duration for this quiz. The clock will run in the background — no distractions, just a warning when time's up.</p>
+
+    <div class="time-options">
+      <button class="time-opt" data-mins="15">15 min</button>
+      <button class="time-opt" data-mins="30">30 min</button>
+      <button class="time-opt" data-mins="45">45 min</button>
+      <button class="time-opt" data-mins="60">60 min</button>
+    </div>
+
+    <div class="custom-time-row">
+      <input type="number" id="custom-time-input" placeholder="Custom minutes" min="1" />
+      <button id="customTimeBtn">Start</button>
+    </div>
+  </div>
+</div>
+
+<!-- Time Up Warning Modal -->
+<div id="time-warning-overlay" class="modal-overlay hidden">
+  <div class="modal-card warning-card">
+    <div class="modal-icon warning-icon">⏰</div>
+    <h3>Time's Up!</h3>
+    <p class="modal-subtext">Your target time has ended. Extend it, or continue at your own pace.</p>
+
+    <div class="extend-options">
+      <button id="extend5Btn" class="extend-btn">+5 minutes</button>
+      <button id="extend10Btn" class="extend-btn">+10 minutes</button>
+    </div>
+
+    <button id="continueBtn" class="continue-btn">Continue Without Extending</button>
+  </div>
+</div>
+
+<!-- Report Card Modal -->
+<div id="report-overlay" class="modal-overlay hidden">
+  <div class="modal-card report-card">
+    <div class="report-score-ring">
+      <svg viewBox="0 0 120 120" class="ring-svg">
+        <circle cx="60" cy="60" r="52" class="ring-bg" />
+        <circle cx="60" cy="60" r="52" class="ring-fill" id="ringFill" />
+      </svg>
+      <div class="ring-label">
+        <span id="reportPercent">0%</span>
+        <small>Score</small>
+      </div>
+    </div>
+
+    <h3>Test Report</h3>
+    <p class="modal-subtext" id="reportScoreLine">You scored 0 / 0</p>
+
+    <div class="report-stats-grid">
+      <div class="stat-box correct-box">
+        <span class="stat-num" id="statCorrect">0</span>
+        <span class="stat-label">Correct</span>
+      </div>
+      <div class="stat-box wrong-box">
+        <span class="stat-num" id="statWrong">0</span>
+        <span class="stat-label">Wrong</span>
+      </div>
+      <div class="stat-box skipped-box">
+        <span class="stat-num" id="statSkipped">0</span>
+        <span class="stat-label">Skipped</span>
+      </div>
+      <div class="stat-box time-box">
+        <span class="stat-num" id="statTime">0:00</span>
+        <span class="stat-label">Time Taken</span>
+      </div>
+    </div>
+
+    <button id="reportContinueBtn" class="continue-btn-solid">Back to Practice</button>
+  </div>
+</div>
 
 <script src="js/api.js"></script>
 <script src="js/quiz.js"></script>
