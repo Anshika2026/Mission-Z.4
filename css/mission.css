@@ -1,0 +1,329 @@
+/* ADD MISSION MODAL */
+.mission-form-card {
+  max-width: 560px;
+  max-height: 85vh;
+  overflow-y: auto;
+  text-align: left;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 transparent;
+}
+
+.mission-basic-fields {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.mission-basic-fields input {
+  flex: 1;
+  padding: 11px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0f172a;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+
+body.light .mission-basic-fields input {
+  background: #f8fafc;
+  color: #111;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.mission-basic-fields input:focus {
+  border-color: #22c55e;
+}
+
+.primary-target-block {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  background: #101c33;
+}
+
+body.light .primary-target-block {
+  background: #f8fafc;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.primary-target-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.primary-target-header input {
+  flex: 1;
+  padding: 9px 11px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0f172a;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13.5px;
+  outline: none;
+}
+
+body.light .primary-target-header input {
+  background: #ffffff;
+  color: #111;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.remove-primary-btn {
+  border: none;
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border-radius: 7px;
+  width: 34px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.subtarget-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-left: 16px;
+}
+
+.subtarget-row input {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0f172a;
+  color: #e2e8f0;
+  font-size: 13px;
+  outline: none;
+}
+
+body.light .subtarget-row input {
+  background: #ffffff;
+  color: #334155;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.remove-sub-btn {
+  border: none;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border-radius: 6px;
+  width: 28px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.add-sub-btn {
+  margin-left: 16px;
+  border: none;
+  background: none;
+  color: #3b82f6;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.add-sub-btn:hover {
+  text-decoration: underline;
+}
+
+.add-primary-btn {
+  width: 100%;
+  padding: 11px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  transition: 0.2s;
+}
+
+.add-primary-btn:hover {
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+/* MISSION REPORT CARDS */
+.mission-reports {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mission-card {
+  background: #1e293b;
+  border-radius: 14px;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+body.light .mission-card {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mission-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.mission-title-block h4 {
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+
+.mission-deadline {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.mission-deadline.overdue {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.mission-percent-ring {
+  text-align: center;
+}
+
+.mission-percent-ring .mp-num {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.mission-percent-ring .mp-lbl {
+  font-size: 10.5px;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.mission-progress-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+body.light .mission-progress-track {
+  background: rgba(0, 0, 0, 0.07);
+}
+
+.mission-progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+  transition: width 0.6s ease;
+}
+
+.primary-target-report {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.primary-target-report:first-child {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.ptr-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ptr-percent {
+  font-size: 12.5px;
+  color: #22c55e;
+  font-weight: 700;
+}
+
+.subtarget-check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0 7px 6px;
+  font-size: 13.5px;
+}
+
+.subtarget-check-row input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  accent-color: #22c55e;
+}
+
+.subtarget-check-row.done span {
+  text-decoration: line-through;
+  color: #64748b;
+}
+
+.mission-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #94a3b8;
+}
+
+.mission-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.mission-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mission-download-btn {
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: #94a3b8;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: 0.2s;
+  flex-shrink: 0;
+}
+
+.mission-download-btn:hover {
+  border-color: #22c55e;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.08);
+}
+
+body.light .mission-download-btn {
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  color: #64748b;
+}
+
+body.light .mission-download-btn:hover {
+  border-color: #16a34a;
+  color: #16a34a;
+  background: rgba(22, 163, 74, 0.06);
+}

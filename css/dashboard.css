@@ -661,3 +661,68 @@ body.light .view-progress-btn:hover {
 .status-badge.average { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
 .status-badge.strong { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
 .status-badge.no-data { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
+
+.navbar button {
+  margin-left: 10px;
+  padding: 9px 16px;
+  /* border: 1.5px solid #22c55e; */
+  background: transparent;
+  color: #fdfdfd;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s;
+}
+
+.navbar button:hover {
+  background: rgba(34, 197, 94, 0.12);
+  text-decoration: underline;
+}
+
+.navbar button:active {
+  transform: translateY(0);
+}
+
+body.light .navbar button {
+  border: 1.5px solid #16a34a;
+  color: #199c49;
+}
+
+body.light .navbar button:hover {
+  background: rgba(22, 163, 74, 0.08);
+}
+
+/* Logout gets a subtle red accent instead of green, since it's a distinct/destructive action */
+.navbar button.logout-btn {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.navbar button.logout-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Theme toggle stays icon-only, neutral tone */
+.navbar button.theme-btn {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+  padding: 9px 12px;
+}
+
+body.light .navbar button.theme-btn {
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #475569;
+}
+
+.navbar button.theme-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+body.light .navbar button.theme-btn:hover {
+  background: rgba(0, 0, 0, 0.04);
+}

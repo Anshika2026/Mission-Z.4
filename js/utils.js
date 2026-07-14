@@ -31,5 +31,8 @@ function getUserId() {
 function goToHealth() {
   window.location.href = "health.html";
 }
+function goToMission() {
+  window.location.href = "mission.html";
+}
 
 window.onload = loadTheme;

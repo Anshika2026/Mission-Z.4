@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mission Z - Missions</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/mission.css">
+</head>
+<body>
+
+<header class="navbar">
+  <h2>Mission Dashboard</h2>
+  <div>
+    <button onclick="openAddMissionModal()">➕ Add New Mission</button>
+    <button onclick="goToDashboard()">Dashboard</button>
+    <button onclick="toggleTheme()">🌙</button>
+  </div>
+</header>
+
+<main class="dashboard">
+
+  <section class="consistency">
+    <h3>🎯 Mission Success Overview</h3>
+    <canvas id="missionChart"></canvas>
+  </section>
+
+  <section id="missionReportsSection" class="mission-reports">
+  </section>
+
+</main>
+
+<!-- Add Mission Modal -->
+<div id="add-mission-overlay" class="modal-overlay hidden">
+  <div class="modal-card mission-form-card">
+    <div class="report-header">
+      <div>
+        <h3>New Mission</h3>
+        <p class="modal-subtext">Define targets and sub-targets to track</p>
+      </div>
+      <span id="closeAddMission" class="modal-close">✖</span>
+    </div>
+
+    <div class="mission-basic-fields">
+      <input type="text" id="missionNameInput" placeholder="Mission Name (e.g. Z.5)" />
+      <input type="date" id="missionDeadlineInput" />
+    </div>
+
+    <div id="primaryTargetsContainer"></div>
+
+    <button class="add-primary-btn" onclick="addPrimaryTargetRow()">➕ Add Primary Target</button>
+
+    <button id="saveMissionBtn" class="continue-btn-solid" onclick="saveMission()">
+      <span class="btn-text">Create Mission</span>
+      <span class="btn-loader hidden"></span>
+    </button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/api.js"></script>
+<script src="js/mission.js"></script>
+<script src="js/utils.js"></script>
+
+</body>
+</html>
