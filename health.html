@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mission Z.4 - Health</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/health.css">
+</head>
+<body>
+
+<header class="navbar">
+  <h2>Health Dashboard</h2>
+  <div>
+    <button onclick="goToDashboard()">Dashboard</button>
+    <button onclick="toggleTheme()">🌙</button>
+  </div>
+</header>
+
+<main class="dashboard">
+
+  <section class="charts">
+
+    <div class="chart-box health-log-box">
+      <div class="chart-box-title-row">
+        <h3>Discomfort Log</h3>
+        <button class="view-progress-btn" onclick="viewHealthReport()">View Health Report</button>
+      </div>
+
+      <div class="discomfort-form">
+        <select id="discomfortType">
+          <option value="Headache">Headache</option>
+          <option value="Diarrhea">Diarrhea</option>
+          <option value="Constipation">Constipation</option>
+          <option value="Back Pain">Back Pain</option>
+          <option value="Emotional Dilemma">Emotional Dilemma</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <input type="text" id="otherDiscomfortInput" placeholder="Specify discomfort" class="hidden" />
+
+        <div class="form-row">
+          <input type="number" id="discomfortHours" placeholder="Hours" min="0" step="0.5" />
+          <input type="time" id="discomfortTime" />
+        </div>
+
+        <button id="saveDiscomfortBtn" onclick="saveDiscomfort()">
+          <span class="btn-text">Save Entry</span>
+          <span class="btn-loader hidden"></span>
+        </button>
+      </div>
+
+      <canvas id="discomfortChart"></canvas>
+    </div>
+
+    <div class="chart-box food-plan-box">
+      <h3>🍽 My Food Plan</h3>
+      <div class="food-plan-table-wrap">
+        <table class="food-plan-table">
+          <tr><th>Time</th><th>Meal</th></tr>
+          <tr><td>After waking</td><td>Warm water</td></tr>
+          <tr><td>30 min later</td><td>Rice + dal + vegetables + small salad</td></tr>
+          <tr><td>Evening</td><td>Rotate: milk + chuda / sprouts / fruit + roasted chana / oats</td></tr>
+          <tr><td>9–10 PM</td><td>2–3 roti + vegetables + dal or paneer/soy</td></tr>
+          <tr><td>12–1 AM</td><td>1–2 roti + dal or milk + 10-minute walk</td></tr>
+          <tr><td>3–4 AM</td><td>Whole-wheat bread + paneer/peanut butter, or milk + oats, or banana + milk + 10-minute walk</td></tr>
+          <tr><td>Before sleep</td><td>Apple or banana + 10-minute walk</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- Health Report Modal -->
+<div id="health-report-overlay" class="modal-overlay hidden">
+  <div class="modal-card progress-report-card">
+    <div class="report-header">
+      <div>
+        <h3>Health Report</h3>
+        <p class="modal-subtext">Last 15 days summary</p>
+      </div>
+      <span id="closeHealthReport" class="modal-close">✖</span>
+    </div>
+
+    <div class="report-summary-row" id="healthSummaryRow"></div>
+
+    <div class="top-weak-list">
+      <h4>Discomfort Breakdown</h4>
+      <div id="healthBreakdownList"></div>
+    </div>
+
+    <div class="subject-card">
+      <div class="subject-card-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="subject-name-row">
+          <div class="subject-name">Entry Log</div>
+        </div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="chapter-table" id="healthEntriesList"></div>
+    </div>
+    <div class="report-footer">
+  <button id="downloadHealthReportBtn" class="continue-btn-solid">⬇ Download Report</button>
+</div>
+  </div>
+  
+</div>
+<!-- <div class="subject-card">
+  <div class="subject-card-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="subject-name-row">
+      <div class="subject-name">Entry Log</div>
+    </div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="chapter-table" id="healthEntriesList"></div>
+</div>
+
+<div class="report-footer">
+  <button id="downloadHealthReportBtn" class="continue-btn-solid">⬇ Download Report</button>
+</div> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/api.js"></script>
+<script src="js/health.js"></script>
+<script src="js/utils.js"></script>
+
+</body>
+</html>

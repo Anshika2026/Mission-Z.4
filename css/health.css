@@ -1,0 +1,141 @@
+.discomfort-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 14px 0 20px;
+}
+
+.discomfort-form select,
+.discomfort-form input[type="text"] {
+  padding: 10px 12px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0f172a;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+
+body.light .discomfort-form select,
+body.light .discomfort-form input[type="text"] {
+  background: #f8fafc;
+  color: #111;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-row input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0f172a;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+
+body.light .form-row input {
+  background: #f8fafc;
+  color: #111;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.discomfort-form select:focus,
+.discomfort-form input:focus,
+.form-row input:focus {
+  border-color: #ef4444;
+}
+
+#saveDiscomfortBtn {
+  padding: 11px;
+  border: none;
+  border-radius: 7px;
+  background: #ef4444;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#saveDiscomfortBtn:hover {
+  background: #dc2626;
+}
+
+/* FOOD PLAN */
+.food-plan-table-wrap {
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+.food-plan-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.food-plan-table th {
+  text-align: left;
+  padding: 10px 12px;
+  color: #94a3b8;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.food-plan-table td {
+  padding: 12px;
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.food-plan-table tr:last-child td {
+  border-bottom: none;
+}
+
+body.light .food-plan-table td {
+  color: #334155;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+body.light .food-plan-table th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* HEALTH REPORT BREAKDOWN BARS */
+.health-breakdown-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 44px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+  font-size: 13px;
+}
+
+.hb-bar-track {
+  height: 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+body.light .hb-bar-track {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.hb-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+.hb-hours {
+  text-align: right;
+  color: #ef4444;
+  font-weight: 700;
+}

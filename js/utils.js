@@ -28,5 +28,8 @@ function goToDashboard() {
 function getUserId() {
   return localStorage.getItem("userId");
 }
+function goToHealth() {
+  window.location.href = "health.html";
+}
 
 window.onload = loadTheme;
