@@ -79,13 +79,31 @@
 <div class="hours-card">
   <input type="number" id="hoursInput" placeholder="Enter hours" />
   <button id="saveBtn" onclick="saveHours()">Save</button>
+  <button id="reportBtn" onclick="openStudyReport()">📊 Report</button>
+      <div class="mini-timer" id="miniTimer">
+      <span id="timerDisplay">00:00:00</span>
+      <button id="timerStartBtn" onclick="toggleTimer()">▶</button>
+      <button id="timerResetBtn" onclick="resetTimer()" title="Stop & Reset">⟲</button>
+    </div>
 </div>
 </div>
     <canvas id="consistencyChart"></canvas>
   </section>
 
 </main>
-
+<!-- Study Hours Report Modal -->
+ <div id="studyReportModal" class="modal hidden">
+  <div class="modal-content report-modal">
+    <div class="modal-header">
+      <h3>📊 Study Hours Report</h3>
+      <span class="modal-close" onclick="closeStudyReport()">✖</span>
+    </div>
+    <div id="reportBody" class="report-body">
+      <p style="text-align:center;padding:30px;">Loading...</p>
+    </div>
+    <button class="download-report-btn" onclick="downloadStudyReport()">⬇ Download Report</button>
+  </div>
+</div>
 <!-- Progress Report Modal -->
 <div id="progress-report-overlay" class="modal-overlay hidden">
   <div class="modal-card progress-report-card">

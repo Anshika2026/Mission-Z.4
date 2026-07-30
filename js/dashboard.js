@@ -810,3 +810,212 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("weakness-overlay").classList.add("hidden");
   };
 });
+
+async function openStudyReport() {
+  const userId = getUserId();
+  const modal = document.getElementById("studyReportModal");
+  const body = document.getElementById("reportBody");
+
+  body.innerHTML = `<p style="text-align:center;padding:30px;">Loading report...</p>`;
+  modal.classList.remove("hidden");
+
+  const res = await api("getStudyReport", { userId });
+  renderStudyReport(res);
+}
+
+function closeStudyReport() {
+  document.getElementById("studyReportModal").classList.add("hidden");
+}
+
+function renderStudyReport(data) {
+  const body = document.getElementById("reportBody");
+
+  const weeklyRows = data.weeklyLabels
+    .map((w, i) => {
+      const label = new Date(w).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+      });
+      return `<div class="report-row"><span>Week of ${label}</span><span>${data.weeklyData[i]} hrs</span></div>`;
+    })
+    .join("");
+
+  const entryRows = data.entries
+    .slice()
+    .reverse()
+    .map((en) => {
+      const d = new Date(en.date).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      });
+      return `<div class="report-row"><span>${d}</span><span>${en.hours} hrs</span></div>`;
+    })
+    .join("");
+
+  const bestDayLabel = data.bestDay
+    ? new Date(data.bestDay.date).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+      })
+    : "-";
+
+  body.innerHTML = `
+    <div class="report-summary-grid">
+      <div class="summary-card"><h4>${data.totalHours}</h4><p>Total Hours (All-time)</p></div>
+      <div class="summary-card"><h4>${data.dailyAverage}</h4><p>Daily Average (All-time)</p></div>
+      <div class="summary-card"><h4>${data.last30Total}</h4><p>Total (Last 30 Days)</p></div>
+      <div class="summary-card"><h4>${data.last30Avg}</h4><p>Daily Avg (Last 30 Days)</p></div>
+      <div class="summary-card"><h4>${data.streak}</h4><p>Current Streak</p></div>
+      <div class="summary-card"><h4>${data.bestDay ? data.bestDay.hours : 0}</h4><p>Best Day (${bestDayLabel})</p></div>
+    </div>
+
+    <h4 class="report-section-title">📅 Weekly Breakdown</h4>
+    <div class="report-list">${weeklyRows || "<p>No data yet</p>"}</div>
+
+    <h4 class="report-section-title">📋 Daily Log</h4>
+    <div class="report-list scrollable">${entryRows || "<p>No data yet</p>"}</div>
+  `;
+}
+
+function downloadStudyReport() {
+  const content = document.getElementById("reportBody").innerHTML;
+  const printWindow = window.open("", "_blank");
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Study Hours Report</title>
+        <style>
+          body { font-family: 'Segoe UI', sans-serif; padding: 30px; color:#111; }
+          h1 { text-align:center; margin-bottom: 20px; }
+          .report-summary-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:15px; margin-bottom:25px; }
+          .summary-card { border:1px solid #ddd; border-radius:10px; padding:15px; text-align:center; }
+          .summary-card h4 { font-size:22px; margin-bottom:5px; }
+          .report-section-title { margin: 20px 0 10px; }
+          .report-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; }
+        </style>
+      </head>
+      <body>
+        <h1>📊 Study Hours Report</h1>
+        ${content}
+      </body>
+    </html>
+  `);
+  printWindow.document.close();
+  printWindow.focus();
+  printWindow.print();
+}
+
+/* ================= MINI TIMER (persists across tabs & pages) ================= */
+
+let timerInterval = null;
+
+function getTimerState() {
+  return (
+    JSON.parse(localStorage.getItem("miniTimerState")) || {
+      running: false,
+      startTime: null,
+      elapsed: 0, // ms accumulated from previous runs (while paused)
+    }
+  );
+}
+
+function setTimerState(state) {
+  localStorage.setItem("miniTimerState", JSON.stringify(state));
+}
+
+function formatTime(ms) {
+  const totalSec = Math.floor(ms / 1000);
+  const h = String(Math.floor(totalSec / 3600)).padStart(2, "0");
+  const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, "0");
+  const s = String(totalSec % 60).padStart(2, "0");
+  return `${h}:${m}:${s}`;
+}
+
+// Always computed from real timestamps, not interval ticks —
+// so it stays correct even if the tab was backgrounded/throttled.
+function getCurrentElapsed(state) {
+  return state.running
+    ? state.elapsed + (Date.now() - state.startTime)
+    : state.elapsed;
+}
+
+function renderTimerDisplay() {
+  const state = getTimerState();
+  const el = document.getElementById("timerDisplay");
+  if (!el) return; // guard in case markup isn't on this page
+
+  el.innerText = formatTime(getCurrentElapsed(state));
+  document.getElementById("timerStartBtn").innerText = state.running
+    ? "⏸"
+    : "▶";
+}
+
+function toggleTimer() {
+  const state = getTimerState();
+
+  if (state.running) {
+    state.elapsed = getCurrentElapsed(state);
+    state.running = false;
+    state.startTime = null;
+    stopTimerInterval();
+  } else {
+    state.running = true;
+    state.startTime = Date.now();
+    startTimerInterval();
+  }
+
+  setTimerState(state);
+  renderTimerDisplay();
+}
+
+async function resetTimer() {
+  const state = getTimerState();
+  const elapsedMs = getCurrentElapsed(state);
+
+  if (elapsedMs >= 60000) {
+    // only bother asking if it's at least a minute
+    const hrs = elapsedMs / 3600000;
+    const shouldLog = confirm(
+      `Session length: ${formatTime(elapsedMs)}. Add ${hrs.toFixed(2)} hrs to today's study hours?`,
+    );
+    if (shouldLog) await logTimerHours(hrs);
+  }
+
+  setTimerState({ running: false, startTime: null, elapsed: 0 });
+  stopTimerInterval();
+  renderTimerDisplay();
+}
+
+async function logTimerHours(hrs) {
+  const userId = getUserId();
+  const res = await api("getStudyHours", { userId });
+
+  const todayKey = new Date().toISOString().split("T")[0];
+  const idx = res.labels.indexOf(todayKey);
+  const existing = idx > -1 ? res.data[idx] : 0;
+
+  const newTotal = +(existing + hrs).toFixed(2);
+  await api("saveStudyHours", { userId, hours: newTotal });
+
+  loadStudyChart(); // refresh chart so the added time shows immediately
+}
+
+function startTimerInterval() {
+  stopTimerInterval();
+  timerInterval = setInterval(renderTimerDisplay, 1000);
+}
+
+function stopTimerInterval() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+function initTimer() {
+  renderTimerDisplay();
+  if (getTimerState().running) startTimerInterval();
+}
+
+document.addEventListener("DOMContentLoaded", initTimer);
