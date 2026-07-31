@@ -34,5 +34,8 @@ function goToHealth() {
 function goToMission() {
   window.location.href = "mission.html";
 }
+function goToKeywords() {
+  window.location.href = "keywords.html";
+}
 
 window.onload = loadTheme;
