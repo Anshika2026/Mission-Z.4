@@ -294,3 +294,46 @@ body.light .kw-term { background: #f8fafc; }
 .modal.hidden {
   display: none !important;
 }
+.kw-inner-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 8px;
+  padding: 0 12px;
+}
+
+body.light .kw-inner-search {
+  background: #f1f5f9;
+  border: 1px solid rgba(0,0,0,.08);
+}
+
+.kw-inner-search input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: inherit;
+  padding: 10px 0;
+  font-size: 13px;
+}
+
+.kw-inner-search-clear {
+  cursor: pointer;
+  opacity: .5;
+  font-size: 12px;
+}
+
+.kw-inner-search-clear:hover { opacity: 1; }
+
+.kw-term-no-match {
+  text-align: center;
+  padding: 20px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.kw-term.dimmed {
+  display: none;
+}

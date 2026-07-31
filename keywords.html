@@ -69,6 +69,22 @@
 </div>
 
 <!-- View/Detail Modal -->
+<!-- <div class="modal hidden" id="viewModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="viewTitle">Title</h3>
+      <span class="modal-close" onclick="closeViewModal()">✖</span>
+    </div>
+    <div class="view-meta" id="viewMeta"></div>
+    <div class="kw-term-list" id="viewBody"></div>
+    <div class="modal-footer">
+      <button class="print-card-btn" onclick="printCard()">🖨 Print</button>
+      <button class="edit-card-btn" id="editFromViewBtn">✏ Edit</button>
+    </div>
+  </div>
+</div> -->
+
+<!-- View/Detail Modal -->
 <div class="modal hidden" id="viewModal">
   <div class="modal-content">
     <div class="modal-header">
@@ -76,6 +92,13 @@
       <span class="modal-close" onclick="closeViewModal()">✖</span>
     </div>
     <div class="view-meta" id="viewMeta"></div>
+
+    <div class="kw-inner-search">
+      <span class="kw-search-icon">🔍</span>
+      <input type="text" id="cardSearchInput" placeholder="Search terms in this card..." oninput="filterCardTerms()">
+      <span class="kw-inner-search-clear hidden" id="cardSearchClear" onclick="clearCardSearch()">✖</span>
+    </div>
+
     <div class="kw-term-list" id="viewBody"></div>
     <div class="modal-footer">
       <button class="print-card-btn" onclick="printCard()">🖨 Print</button>

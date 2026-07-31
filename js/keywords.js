@@ -253,32 +253,102 @@ async function deleteCard(id) {
 }
 
 /* ---------- VIEW MODAL ---------- */
+// function openViewModal(card) {
+//   activeCardForView = card;
+//   document.getElementById("viewTitle").innerText = card.title;
+//   document.getElementById("viewMeta").innerText =
+//     `${parseContent(card.content).length} terms • Last updated ${timeAgo(card.updatedAt)}`;
+
+//   const body = document.getElementById("viewBody");
+//   const terms = parseContent(card.content);
+
+//   body.innerHTML = terms.length
+//     ? terms
+//         .map(
+//           (t) => `
+//         <div class="kw-term" style="border-left-color:${card.color}">
+//           <div class="kw-term-word">${escapeHtml(t.term)}</div>
+//           ${t.def ? `<div class="kw-term-def">${escapeHtml(t.def)}</div>` : ""}
+//         </div>
+//       `,
+//         )
+//         .join("")
+//     : `<p style="color:#94a3b8;">No terms added yet.</p>`;
+
+//   document.getElementById("editFromViewBtn").onclick = () =>
+//     openCardModal(card.id);
+
+//   document.getElementById("viewModal").classList.remove("hidden");
+// }
+
 function openViewModal(card) {
   activeCardForView = card;
   document.getElementById("viewTitle").innerText = card.title;
   document.getElementById("viewMeta").innerText =
     `${parseContent(card.content).length} terms • Last updated ${timeAgo(card.updatedAt)}`;
 
-  const body = document.getElementById("viewBody");
-  const terms = parseContent(card.content);
+  const searchInput = document.getElementById("cardSearchInput");
+  searchInput.value = "";
+  document.getElementById("cardSearchClear").classList.add("hidden");
 
-  body.innerHTML = terms.length
-    ? terms
-        .map(
-          (t) => `
-        <div class="kw-term" style="border-left-color:${card.color}">
-          <div class="kw-term-word">${escapeHtml(t.term)}</div>
-          ${t.def ? `<div class="kw-term-def">${escapeHtml(t.def)}</div>` : ""}
-        </div>
-      `,
-        )
-        .join("")
-    : `<p style="color:#94a3b8;">No terms added yet.</p>`;
+  renderCardTerms("");
 
   document.getElementById("editFromViewBtn").onclick = () =>
     openCardModal(card.id);
 
   document.getElementById("viewModal").classList.remove("hidden");
+  searchInput.focus();
+}
+
+function renderCardTerms(query) {
+  const body = document.getElementById("viewBody");
+  const terms = parseContent(activeCardForView.content);
+  const q = query.trim().toLowerCase();
+
+  const matches = q
+    ? terms.filter(
+        (t) =>
+          t.term.toLowerCase().includes(q) || t.def.toLowerCase().includes(q),
+      )
+    : terms;
+
+  if (!terms.length) {
+    body.innerHTML = `<p style="color:#94a3b8;">No terms added yet.</p>`;
+    return;
+  }
+
+  if (!matches.length) {
+    body.innerHTML = `<div class="kw-term-no-match">🔍 No terms match "${escapeHtml(query)}"</div>`;
+    return;
+  }
+
+  body.innerHTML = matches
+    .map(
+      (t) => `
+    <div class="kw-term" style="border-left-color:${activeCardForView.color}">
+      <div class="kw-term-word">${highlight(t.term, q)}</div>
+      ${t.def ? `<div class="kw-term-def">${highlight(t.def, q)}</div>` : ""}
+    </div>
+  `,
+    )
+    .join("");
+}
+
+let cardSearchDebounce;
+function filterCardTerms() {
+  const val = document.getElementById("cardSearchInput").value;
+  document.getElementById("cardSearchClear").classList.toggle("hidden", !val);
+
+  clearTimeout(cardSearchDebounce);
+  cardSearchDebounce = setTimeout(() => renderCardTerms(val), 120);
+}
+
+function clearCardSearch() {
+  const input = document.getElementById("cardSearchInput");
+  input.value = "";
+  document.getElementById("cardSearchClear").classList.add("hidden");
+  renderCardTerms("");
+  input.focus();
 }
 
 function closeViewModal() {
