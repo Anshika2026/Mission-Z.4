@@ -4,16 +4,65 @@
   <meta charset="UTF-8">
   <title>Mission Z.4 - Quiz</title>
   <link rel="stylesheet" href="css/practice.css">
+  <link rel="stylesheet" href="css/navbar.css">
 </head>
 <body>
 
 <header class="navbar">
-  <h2>Quiz</h2>
-  <div>
-    <button onclick="exitQuiz()">Exit</button>
-    <button onclick="toggleTheme()">🌙</button>
+  <div class="nav-left">
+    <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMobileMenu()">☰</button>
+    <h2 class="brand">Mission Z</h2>
+  </div>
+
+  <nav class="nav-center">
+    <a href="dashboard.html" class="nav-link">Dashboard</a>
+    <a href="practice.html" class="nav-link">Practice</a>
+    <a href="answers.html" class="nav-link">Answers</a>
+    <a href="keywords.html" class="nav-link">Keywords</a>
+    <a href="mission.html" class="nav-link">Missions</a>
+    <a href="health.html" class="nav-link">Health</a>
+  </nav>
+
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+    <div class="user-menu">
+      <button class="user-avatar-btn" id="userAvatarBtn" onclick="toggleUserMenu()">
+        <span id="userInitials">U</span>
+      </button>
+      <div class="user-dropdown hidden" id="userDropdown">
+        <div class="user-dropdown-header">
+          <div class="user-avatar-large" id="userInitialsLarge">U</div>
+          <div>
+            <div class="user-dropdown-name" id="dropdownUserName">User</div>
+            <div class="user-dropdown-id" id="dropdownUserId">Member ID: -</div>
+          </div>
+        </div>
+        <div class="user-dropdown-divider"></div>
+        <button class="user-dropdown-item" onclick="toggleTheme()">🌙 Toggle Theme</button>
+        <button class="user-dropdown-item logout-item" onclick="logout()">🚪 Logout</button>
+      </div>
+    </div>
   </div>
 </header>
+
+<div class="mobile-overlay hidden" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+<div class="mobile-sidebar" id="mobileSidebar">
+  <div class="mobile-sidebar-header">
+    <h3>Menu</h3>
+    <span onclick="closeMobileMenu()">✖</span>
+  </div>
+  <nav class="mobile-sidebar-links">
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="practice.html">📘 Practice</a>
+    <a href="answers.html">✍ Answers</a>
+    <a href="keywords.html">🧠 Keywords</a>
+    <a href="mission.html">🎯 Missions</a>
+    <a href="health.html">❤️ Health</a>
+  </nav>
+  <div class="mobile-sidebar-footer">
+    <button onclick="logout()">🚪 Logout</button>
+  </div>
+</div>
 
 <main class="quiz">
 
@@ -141,6 +190,7 @@
 <script src="js/quiz.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/chatbot.js"></script>
+<script src="js/navbar.js"></script>
 </body>
 <!-- Floating Button -->
 <div id="chat-fab" onclick="toggleChat()">

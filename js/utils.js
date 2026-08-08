@@ -37,5 +37,8 @@ function goToMission() {
 function goToKeywords() {
   window.location.href = "keywords.html";
 }
+function goToAnswers() {
+  window.location.href = "answers.html";
+}
 
 window.onload = loadTheme;

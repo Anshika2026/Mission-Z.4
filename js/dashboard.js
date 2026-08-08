@@ -2,16 +2,16 @@ let prelimsChart, mainsChart, consistencyChart;
 
 document.addEventListener("DOMContentLoaded", init);
 
-function showWelcome() {
-  const name = localStorage.getItem("userName");
+// function showWelcome() {
+//   const name = localStorage.getItem("userName");
 
-  document.getElementById("welcomeUser").innerText =
-    name && name !== "undefined" ? `Welcome ${name}` : "Welcome User";
-}
+//   document.getElementById("welcomeUser").innerText =
+//     name && name !== "undefined" ? `Welcome ${name}` : "Welcome User";
+// }
 async function init() {
   const userId = getUserId();
   if (!userId) return logout();
-  showWelcome();
+  // showWelcome();
   await loadSubjects();
   await loadDashboardData();
   await loadStudyChart();

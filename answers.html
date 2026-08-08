@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mission Z.4 - Keywords</title>
-  <link rel="stylesheet" href="css/keywords.css">
+  <title>Mission Z.4 - Answers</title>
+  <link rel="stylesheet" href="css/answers.css">
   <link rel="stylesheet" href="css/navbar.css">
 </head>
 <body>
@@ -64,33 +64,33 @@
   </div>
 </div>
 
-<main class="keywords-page">
+<main class="ans-page">
 
-  <section class="kw-toolbar">
-    <div class="kw-search-box">
-      <span class="kw-search-icon">🔍</span>
-      <input type="text" id="searchInput" placeholder="Search cards, keywords, definitions... (Ctrl+K)" oninput="filterCards()">
+  <section class="ans-toolbar">
+    <div class="ans-search-box">
+      <span class="ans-search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search subjects, questions, answers... (Ctrl+K)" oninput="filterCards()">
     </div>
 
     <select id="sortSelect" onchange="renderCards()">
       <option value="recent">Recently Updated</option>
       <option value="az">Title A–Z</option>
-      <option value="terms">Most Terms</option>
+      <option value="qcount">Most Questions</option>
     </select>
 
-    <button class="add-card-btn" onclick="openCardModal()">+ Add Card</button>
+    <button class="add-card-btn" onclick="openCardModal()">+ Add Section</button>
   </section>
 
-  <section class="kw-stats">
-    <span id="cardCount">0 cards</span>
-    <span id="termCount">0 terms total</span>
+  <section class="ans-stats">
+    <span id="cardCount">0 sections</span>
+    <span id="qCount">0 questions total</span>
   </section>
 
-  <section class="kw-grid" id="kwGrid"></section>
+  <section class="ans-grid" id="ansGrid"></section>
 
-  <div class="kw-empty hidden" id="kwEmpty">
-    <p>📭 No cards yet</p>
-    <span>Click "+ Add Card" to create your first subject card — e.g. "Economic Reforms".</span>
+  <div class="ans-empty hidden" id="ansEmpty">
+    <p>📭 No sections yet</p>
+    <span>Click "+ Add Section" to create your first Q&A section — e.g. "Polity Mains Answers".</span>
   </div>
 
 </main>
@@ -99,38 +99,22 @@
 <div class="modal hidden" id="cardModal">
   <div class="modal-content">
     <div class="modal-header">
-      <h3 id="modalTitle">New Card</h3>
+      <h3 id="modalTitle">New Section</h3>
       <span class="modal-close" onclick="closeCardModal()">✖</span>
     </div>
 
-    <input type="text" id="cardTitleInput" placeholder="Subject / Topic name (e.g. Economic Reforms)">
+    <input type="text" id="cardTitleInput" placeholder="Subject / Section name (e.g. Polity Mains Answers)">
 
     <div class="color-picker" id="colorPicker"></div>
 
-    <textarea id="cardContentInput" placeholder="One per line, in the format:&#10;Term: Definition&#10;&#10;e.g.&#10;Fiscal Deficit: Difference between total revenue and total expenditure of the government&#10;Repo Rate: Rate at which RBI lends money to commercial banks"></textarea>
+    <textarea id="cardContentInput" placeholder="Format each pair like this:&#10;&#10;Q: What is the significance of Article 32?&#10;A: It empowers citizens to move the Supreme Court directly for enforcement&#10;of Fundamental Rights. Dr. Ambedkar called it the 'heart and soul' of the&#10;Constitution because without it, rights would be unenforceable.&#10;&#10;Q: Next question here?&#10;A: Next answer here, can span multiple lines..."></textarea>
 
     <div class="modal-footer">
       <span id="charCount">0 characters</span>
-      <button class="save-card-btn" onclick="saveCard()">Save Card</button>
+      <button class="save-card-btn" onclick="saveCard()">Save Section</button>
     </div>
   </div>
 </div>
-
-<!-- View/Detail Modal -->
-<!-- <div class="modal hidden" id="viewModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3 id="viewTitle">Title</h3>
-      <span class="modal-close" onclick="closeViewModal()">✖</span>
-    </div>
-    <div class="view-meta" id="viewMeta"></div>
-    <div class="kw-term-list" id="viewBody"></div>
-    <div class="modal-footer">
-      <button class="print-card-btn" onclick="printCard()">🖨 Print</button>
-      <button class="edit-card-btn" id="editFromViewBtn">✏ Edit</button>
-    </div>
-  </div>
-</div> -->
 
 <!-- View/Detail Modal -->
 <div class="modal hidden" id="viewModal">
@@ -141,13 +125,21 @@
     </div>
     <div class="view-meta" id="viewMeta"></div>
 
-    <div class="kw-inner-search">
-      <span class="kw-search-icon">🔍</span>
-      <input type="text" id="cardSearchInput" placeholder="Search terms in this card..." oninput="filterCardTerms()">
-      <span class="kw-inner-search-clear hidden" id="cardSearchClear" onclick="clearCardSearch()">✖</span>
+    <div class="ans-inner-search">
+      <span class="ans-search-icon">🔍</span>
+      <input type="text" id="cardSearchInput" placeholder="Search questions in this section..." oninput="filterCardQA()">
+      <span class="ans-inner-search-clear hidden" id="cardSearchClear" onclick="clearCardSearch()">✖</span>
     </div>
 
-    <div class="kw-term-list" id="viewBody"></div>
+    <div class="practice-toggle-row">
+      <label class="practice-toggle">
+        <input type="checkbox" id="practiceModeToggle" onchange="renderCardQA(currentQAQuery())">
+        <span>🎯 Practice Mode (hide answers)</span>
+      </label>
+      <button class="reveal-all-btn" id="revealAllBtn" onclick="toggleRevealAll()">Show All Answers</button>
+    </div>
+
+    <div class="ans-qa-list" id="viewBody"></div>
     <div class="modal-footer">
       <button class="print-card-btn" onclick="printCard()">🖨 Print</button>
       <button class="edit-card-btn" id="editFromViewBtn">✏ Edit</button>
@@ -156,7 +148,7 @@
 </div>
 
 <script src="js/api.js"></script>
-<script src="js/keywords.js"></script>
+<script src="js/answers.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/navbar.js"></script>
 
