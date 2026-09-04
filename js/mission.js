@@ -419,3 +419,15 @@ function downloadMissionReport(missionId) {
   printWindow.focus();
   setTimeout(() => printWindow.print(), 400);
 }
+
+function openAddMission() {
+  document.getElementById("add-mission-overlay").classList.remove("hidden");
+}
+
+function closeAddMissionModal() {
+  document.getElementById("add-mission-overlay").classList.add("hidden");
+}
+
+document
+  .getElementById("closeAddMission")
+  .addEventListener("click", closeAddMissionModal);
