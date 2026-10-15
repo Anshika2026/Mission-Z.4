@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <title>Mission Z.4 - Test</title>
+  <link rel="stylesheet" href="css/test.css">
+</head>
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<header class="tz-nav">
+  <div class="tz-nav-left">
+    <button class="tz-burger" id="burgerBtn" aria-label="Menu">☰</button>
+    <a class="tz-brand" href="dashboard.html">Mission Z.4</a>
+  </div>
+
+  <nav class="tz-links" id="tzLinks">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="practice.html">Practice</a>
+    <a href="keywords.html">Keywords</a>
+    <a href="answers.html">Answers</a>
+    <a href="health.html">Health</a>
+    <a href="mission.html">Mission</a>
+    <a href="test.html" class="active">Test</a>
+  </nav>
+
+  <div class="tz-nav-right">
+    <button class="tz-btn tz-btn-primary tz-add-btn" id="addTestBtn">
+      <span class="plus">＋</span><span class="lbl">Add Test</span>
+    </button>
+    <div class="tz-avatar-wrap">
+      <button class="tz-avatar" id="avatarBtn" aria-label="Account">N</button>
+      <div class="tz-dropdown hidden" id="avatarMenu">
+        <div class="tz-dd-user">
+          <strong id="ddName">User</strong>
+          <small id="ddId">Member ID</small>
+        </div>
+        <button onclick="tzToggleTheme()">🌗 Toggle theme</button>
+        <button onclick="logout()">⎋ Logout</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- mobile drawer -->
+<div class="tz-drawer-bg hidden" id="drawerBg"></div>
+<aside class="tz-drawer" id="drawer">
+  <div class="tz-drawer-head">Mission Z.4</div>
+  <a href="dashboard.html">📊 Dashboard</a>
+  <a href="practice.html">📝 Practice</a>
+  <a href="keywords.html">🔑 Keywords</a>
+  <a href="answers.html">💬 Answers</a>
+  <a href="health.html">❤️ Health</a>
+  <a href="mission.html">🎯 Mission</a>
+  <a href="test.html" class="active">🧪 Test</a>
+</aside>
+
+<!-- ============ MAIN REPORT ============ -->
+<main class="tz-main">
+  <div class="tz-page-head">
+    <div>
+      <h1>Test Report</h1>
+      <p>Your keyword-recall progress across every subject.</p>
+    </div>
+  </div>
+
+  <section class="tz-stats" id="statsGrid"></section>
+
+  <h2 class="tz-section-title">Subject Progress</h2>
+  <section class="tz-subjects" id="subjectsGrid"></section>
+
+  <h2 class="tz-section-title">Recent Tests</h2>
+  <section class="tz-history" id="historyList"></section>
+</main>
+
+<!-- floating Give a Test -->
+<button class="tz-fab" id="giveTestBtn"><span>▶</span> Give a Test</button>
+
+<!-- ============ TEST SCREEN ============ -->
+<section class="tz-testscreen hidden" id="testScreen">
+  <header class="tz-test-top">
+    <button class="tz-icon-btn" id="exitTestBtn" aria-label="Exit">✕</button>
+    <div class="tz-test-meta">
+      <strong id="tsCount">Q 1 / 1</strong>
+      <small id="tsScope">Scope</small>
+    </div>
+    <div class="tz-timer" id="tsTimer">10:00</div>
+  </header>
+  <div class="tz-test-progress"><div id="tsBar"></div></div>
+
+  <div class="tz-test-body">
+    <div class="tz-qcard">
+      <span class="tz-chip" id="tsChapter">Chapter</span>
+      <p class="tz-qtext" id="tsQuestion"></p>
+
+      <label class="tz-label" for="ansInput">Your answer</label>
+      <textarea id="ansInput" class="tz-answer" placeholder="Write your answer here — include the key terms you remember…"></textarea>
+      <div class="tz-warn hidden" id="tsWarn">⚠ Write an answer before proceeding. Use “View Answer” if you need a hint.</div>
+
+      <div class="tz-reveal hidden" id="tsReveal">
+        <div class="tz-reveal-title">Correct answer (keywords)</div>
+        <div class="tz-chips" id="tsRevealChips"></div>
+      </div>
+
+      <div class="tz-result hidden" id="tsResult">
+        <div class="tz-result-top">
+          <div class="tz-result-pct" id="tsPct">0%</div>
+          <div>
+            <div class="tz-result-title" id="tsResultTitle"></div>
+            <div class="tz-result-sub" id="tsResultSub"></div>
+          </div>
+        </div>
+        <div class="tz-meter"><div id="tsMeter"></div></div>
+        <div class="tz-kw-block" id="tsHitBlock"><span>Matched</span><div class="tz-chips" id="tsHit"></div></div>
+        <div class="tz-kw-block" id="tsMissBlock"><span>Missed</span><div class="tz-chips" id="tsMiss"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="tz-test-actions">
+    <button class="tz-btn tz-btn-ghost" id="viewAnsBtn">👁 View Answer</button>
+    <button class="tz-btn tz-btn-ghost" id="editQBtn">✎ Edit / Delete</button>
+    <button class="tz-btn tz-btn-primary" id="proceedBtn">Proceed →</button>
+  </footer>
+
+  <button class="tz-download" id="downloadBtn">⬇ Download Content</button>
+</section>
+
+<!-- ============ MODALS (kept outside navbar/main) ============ -->
+
+<!-- Add Test -->
+<div class="tz-modal hidden" id="addModal">
+  <div class="tz-sheet tz-sheet-lg">
+    <div class="tz-sheet-head">
+      <h3>Add Test Content</h3>
+      <button class="tz-icon-btn" data-close="addModal">✕</button>
+    </div>
+    <div class="tz-sheet-body">
+      <div class="tz-grid-2">
+        <div>
+          <label class="tz-label" for="addSubject">Subject</label>
+          <input class="tz-input" id="addSubject" list="subjectList" placeholder="e.g. Polity" autocomplete="off">
+          <datalist id="subjectList"></datalist>
+        </div>
+        <div>
+          <label class="tz-label" for="addChapter">Chapter</label>
+          <input class="tz-input" id="addChapter" list="chapterList" placeholder="e.g. Fundamental Rights" autocomplete="off">
+          <datalist id="chapterList"></datalist>
+        </div>
+      </div>
+
+      <div class="tz-q-head">
+        <h4>Questions &amp; Answers</h4>
+        <small>Write answers as keywords separated by commas</small>
+      </div>
+      <div id="qRows"></div>
+      <button class="tz-btn tz-btn-ghost tz-full" id="addRowBtn">＋ Add another question</button>
+    </div>
+    <div class="tz-sheet-foot">
+      <button class="tz-btn tz-btn-ghost" data-close="addModal">Cancel</button>
+      <button class="tz-btn tz-btn-primary" id="saveAddBtn">
+        <span id="saveAddText">Save Questions</span><span class="tz-spin hidden" id="saveAddSpin"></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Give a Test -->
+<div class="tz-modal tz-center hidden" id="startModal">
+  <div class="tz-sheet tz-sheet-sm">
+    <div class="tz-sheet-head">
+      <h3>Give a Test</h3>
+      <button class="tz-icon-btn" data-close="startModal">✕</button>
+    </div>
+    <div class="tz-sheet-body">
+      <label class="tz-label" for="stSubject">Subject</label>
+      <select class="tz-input" id="stSubject"></select>
+
+      <label class="tz-label" for="stChapter">Chapter</label>
+      <select class="tz-input" id="stChapter"></select>
+
+      <label class="tz-label">Target time</label>
+      <div class="tz-time-chips" id="timeChips">
+        <button data-min="5">5 min</button>
+        <button data-min="10" class="on">10 min</button>
+        <button data-min="15">15 min</button>
+        <button data-min="20">20 min</button>
+      </div>
+      <p class="tz-hint" id="stInfo"></p>
+    </div>
+    <div class="tz-sheet-foot">
+      <button class="tz-btn tz-btn-ghost" data-close="startModal">Cancel</button>
+      <button class="tz-btn tz-btn-primary" id="stStartBtn">
+        <span id="stStartText">Start Test</span><span class="tz-spin hidden" id="stStartSpin"></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit / Delete question -->
+<div class="tz-modal tz-center hidden" id="editModal">
+  <div class="tz-sheet tz-sheet-sm">
+    <div class="tz-sheet-head">
+      <h3>Edit Question</h3>
+      <button class="tz-icon-btn" data-close="editModal">✕</button>
+    </div>
+    <div class="tz-sheet-body">
+      <label class="tz-label" for="edQuestion">Question</label>
+      <textarea class="tz-input" id="edQuestion" rows="3"></textarea>
+      <label class="tz-label" for="edAnswer">Answer keywords (comma separated)</label>
+      <textarea class="tz-input" id="edAnswer" rows="3"></textarea>
+    </div>
+    <div class="tz-sheet-foot tz-split">
+      <button class="tz-btn tz-btn-danger" id="edDelete">🗑 Delete</button>
+      <button class="tz-btn tz-btn-primary" id="edSave">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm -->
+<div class="tz-modal tz-center hidden" id="confirmModal">
+  <div class="tz-sheet tz-sheet-xs">
+    <div class="tz-sheet-body">
+      <h3 id="cfTitle">Confirm</h3>
+      <p class="tz-hint" id="cfText"></p>
+    </div>
+    <div class="tz-sheet-foot">
+      <button class="tz-btn tz-btn-ghost" id="cfCancel">Cancel</button>
+      <button class="tz-btn tz-btn-primary" id="cfOk">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Test report -->
+<div class="tz-modal hidden" id="reportModal">
+  <div class="tz-sheet tz-sheet-lg">
+    <div class="tz-sheet-head">
+      <div>
+        <h3>Test Report</h3>
+        <small id="rpSub" class="tz-muted"></small>
+      </div>
+      <button class="tz-icon-btn" id="rpClose">✕</button>
+    </div>
+    <div class="tz-sheet-body">
+      <div class="tz-report-top">
+        <div class="tz-report-chart"><canvas id="rpChart"></canvas></div>
+        <div class="tz-report-stats" id="rpStats"></div>
+      </div>
+      <p class="tz-verdict" id="rpVerdict"></p>
+      <h4 class="tz-q-head-s">Question-wise breakdown</h4>
+      <div id="rpList"></div>
+    </div>
+    <div class="tz-sheet-foot tz-split">
+      <button class="tz-btn tz-btn-ghost" id="rpRetake">↻ Retake weak ones</button>
+      <button class="tz-btn tz-btn-primary" id="rpDone">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="tz-toasts" id="toasts"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/test.js"></script>
+</body>
+</html>
